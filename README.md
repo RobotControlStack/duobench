@@ -141,7 +141,7 @@ python -m duobench replay source_folder output_folder --env-id duobench/bin_sort
 RCS records in its own format and provides a converter to LeRobot format for downstream training:
 
 ```shell
-python -m rcs lerobot-convert lerobot_parallel_pick --dataset-path <path> --repo-id parallel_pick --camera head@224x224 --camera left_wrist@224x224 --camera right_wrist@224x224 --video-encoding
+python -m rcs lerobot-convert <output_path> --dataset-path <path> --repo-id duobench/<task_id> --no-joints --camera head@224x224 --camera left_wrist@224x224 --camera right_wrist@224x224 --video-encoding --video-backend torchcodec --binarize-gripper --n 50
 ```
 
 Check `--help` if you need different camera selections, want to include unsuccessful episodes, or want to adjust the export configuration.
