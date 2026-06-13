@@ -59,7 +59,9 @@ pip install -ve .
 
 ## Quickstart
 
-The environments are registered under `duobench/<task_id>`. A minimal example is:
+Tasks need to be imported as `from duobench.tasks import <task_id>`.
+The environments are afterwards registered under `duobench/<task_id>`. Each task has a config named `<task_id>EnvConfig`.
+A minimal example is:
 
 ```python
 import gymnasium as gym
@@ -87,6 +89,37 @@ The task wrapper exposes stage-based evaluation through the returned `info` dict
 - `instruction`: full language instruction for the task
 
 The environment reward is the normalized task-stage progress, and `terminated` becomes `True` once the final stage is reached. ✅
+
+## Evaluation Environment
+The default config is optimized for teleoperation (see section below). To evaluate your model you should use the following example which
+- controls in absolute joints space
+- uses async 30Hz control
+- binary gripper
+- headless (no gui)
+```python
+from rcs.envs.base import ControlMode, RelativeTo
+cfg = ball_maze.BallMazeEnvConfig().config()
+
+# headless
+cfg.headless = True
+
+# absolute joint control
+cfg.control_mode = ControlMode.JOINTS
+cfg.relative_to = RelativeTo.NONE
+
+# async 30Hz
+cfg.sim_cfg = SimConfig(async_control=True, realtime=False, frequency=30)
+
+# binary gripper
+cfg.wrapper_cfg.binary_gripper = True
+
+env = gym.make("duobench/ball_maze", cfg=cfg)
+obs, info = env.reset()
+
+# do your eval e.g. via VLAgents (https://github.com/RobotControlStack/vlagents) or lerobot
+```
+For an overview of all config options see [`SimEnvCreatorConfig` in RCS](https://github.com/RobotControlStack/robot-control-stack/blob/master/python/rcs/envs/scenes.py).
+
 
 ## Available tasks
 
