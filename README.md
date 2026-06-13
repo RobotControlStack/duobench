@@ -3,6 +3,10 @@
 [![arXiv](https://img.shields.io/badge/arXiv-2606.11901-b31b1b?style=flat-square)](https://arxiv.org/abs/2606.11901)
 [![Hugging Face](https://img.shields.io/badge/Hugging%20Face-Datasets-fbbf24?style=flat-square)](https://huggingface.co/RobotControlStack)
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/duobench/duobench.github.io/main/static/images/overview_main.png" width="900" alt="Overview of DuoBench with task categories, stage-based evaluation, and sim-to-real teleoperation pipeline.">
+</p>
+
 DuoBench is a benchmark for bimanual manipulation on the Franka Research 3 Duo platform. This repository contains the simulation task definitions, task-stage evaluation wrappers, replay and teleoperation entry points, and task assets used for the DuoBench environments described in the paper.
 
 This repository includes:
@@ -15,12 +19,14 @@ This repository includes:
 
 ## Overview
 
-If you want the fastest path through the benchmark, the most relevant pieces are:
+DuoBench is built around the Franka Research 3 Duo platform and uses the same task logic across simulation, teleoperation, replay, and evaluation. The benchmark covers four bimanual coordination categories, exposes stage-based progress signals for analysis beyond binary success, and includes a subset of tasks reproduced in the real world with shared assets and procedures.
 
-- `README.md`: setup, task list, and quickstart
-- `src/duobench/tasks/`: task definitions and stage logic
-- `assets/objects/` and `assets/scenes/`: simulation assets
-- `scripts/gym_make.py`: minimal example for creating a DuoBench environment
+The setup is designed to stay reproducible across labs: tasks can be instantiated as `duobench/<task_id>` Gymnasium environments in simulation, and selected tasks can also be recreated on hardware using the Franka Research 3 Duo setup together with the benchmark assets and teleoperation tools.
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/duobench/duobench.github.io/main/static/images/real_sim.jpg" width="450" alt="Side-by-side real and simulated Franka Research 3 Duo setup.">
+</p>
+
 
 ## Installation
 

@@ -95,7 +95,6 @@ OBJECT_PATHS: dict[str, str] = {
 SCENE_PATHS = {
     "empty_world": "assets/scenes/base_world.xml",
     "vention_world": "assets/scenes/vention_table/vention_world.xml",
-    "basic_table": "assets/scenes/basic_table_scene.xml",
 }
 
 # Append RCS_DUOBENCH package prefix to all asset paths
