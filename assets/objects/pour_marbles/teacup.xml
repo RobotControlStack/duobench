@@ -1,0 +1,45 @@
+<mujoco model="teacup">
+    <compiler angle="radian"/>
+
+  <asset>
+    <material name="teacup" specular="1" shininess="1"/>
+    <mesh file="teacup.obj" scale=".8 .8 .8"/>
+    <material name="floor" reflectance=".1"/>
+  </asset>
+
+  <default>
+    <default class="teacup">
+      <default class="visual">
+        <geom group="2" contype="0" conaffinity="0"/>
+      </default>
+      <default class="collision">
+        <geom group="3" condim="3" margin="0.001"/>
+        <default class="teacup_collision">
+          <geom group="3" condim="3" margin="0.001" type="box" size="0.0026 0.00704 0.033"/>
+        </default>
+      </default>
+    </default>
+  </default>
+
+  <worldbody>
+    <body name="teacup_body" childclass="teacup">
+        <freejoint name="teacup_joint"/>
+        <!-- python assets/objects/handover_hole/ring_xml.py --radius .032 --segments 8 --half-thickness 0.002 --half-height 0.0325 --z 0.04-->
+        <geom class="visual" type="mesh" mesh="teacup" material="teacup" euler="0 0 0.392" contype="0" conaffinity="0"/>
+        <geom class="collision" type="cylinder" size=".03 .005" pos="0 0 0.005"/>
+        <!--
+        <site name="cup" type="cylinder" size="0.032 0.0325" pos="0 0 0.04"/>
+        -->
+        <geom type="box" class="collision" pos="0.032 0 0.04" euler="0 0 0" size="0.002 0.014365 0.0325"/>
+        <geom type="box" class="collision" pos="0.022627 0.022627 0.04" euler="0 0 0.785398" size="0.002 0.014365 0.0325"/>
+        <geom type="box" class="collision" pos="0 0.032 0.04" euler="0 0 1.570796" size="0.002 0.014365 0.0325"/>
+        <geom type="box" class="collision" pos="-0.022627 0.022627 0.04" euler="0 0 2.356194" size="0.002 0.014365 0.0325"/>
+        <geom type="box" class="collision" pos="-0.032 0 0.04" euler="0 0 3.141593" size="0.002 0.014365 0.0325"/>
+        <geom type="box" class="collision" pos="-0.022627 -0.022627 0.04" euler="0 0 3.926991" size="0.002 0.014365 0.0325"/>
+        <geom type="box" class="collision" pos="0 -0.032 0.04" euler="0 0 4.712389" size="0.002 0.014365 0.0325"/>
+        <geom type="box" class="collision" pos="0.022627 -0.022627 0.04" euler="0 0 5.497787" size="0.002 0.014365 0.0325"/>
+
+    </body>
+  </worldbody>
+</mujoco>
+

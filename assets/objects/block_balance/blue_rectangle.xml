@@ -1,0 +1,13 @@
+<mujoco>
+
+    <worldbody>
+         <body name="blue_rectangle" pos="0.05 -0.08 0.05">
+            <joint name="blue_rectangle_joint" type="free" frictionloss="0.01" />
+            <!inertial pos="0 0 0" mass="0.05" diaginertia="1e-5 1e-5 1e-5" />
+            <geom condim="4" friction="3.0 0.1 0.1" solref="0.003 1"
+      solimp="0.95 0.99 0.0005" pos="0 0 0" size="0.015 0.015 0.045" type="box" name="blue_rectangle_geom" rgba="0.1 0.1 0.1 1" group="1" mass="0.8"/>
+        </body>
+
+
+    </worldbody>
+</mujoco>

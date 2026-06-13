@@ -1,0 +1,13 @@
+<mujoco>
+    <worldbody>
+        <body name="pink_beam" pos=" -0.1 0 0.05">
+            <joint name="pink_beam_joint" type="free" frictionloss="0.01" />
+            <!inertial pos="0 0 0" mass="0.05" diaginertia="1e-5 1e-5 1e-5" />
+            <geom condim="4" friction="3.0 0.1 0.1" solref="0.003 1"
+      solimp="0.95 0.99 0.0005" pos="0 0 0" size="0.1 0.02 0.01" type="box" name="pink_beam_geom" rgba="0.5 0.5 0.5 1" group="1" mass="0.2"/>
+        </body>
+
+         
+
+    </worldbody>
+</mujoco>

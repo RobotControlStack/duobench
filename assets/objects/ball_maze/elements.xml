@@ -1,0 +1,74 @@
+   <!-- wand links euler=" 0 0 0"-->
+            <!-- wand rechts euler=" 0 0 180"-->
+            <!-- wand oben euler=" 0 0 -90"-->
+            <!-- wand unten euler=" 0 0 90"-->
+
+
+
+ <!-- oben links  = -0.09  0.09 0.003"-->
+            <!-- oben rechts = "0.09  0.09 0.003"-->
+            <!-- unten rechts = 0.09  -0.09 0.003"-->
+            <!-- unten links  = "-0.09  -0.09 0.003"-->
+
+
+
+<!--double horizontal-->
+<body  pos=" 0 0 0.003" euler=" 0 0 90">
+    <body pos="0 0 0" euler=" 0 0 0">
+        <!geom type="mesh" mesh="wall_base" class="visual"/>
+        <geom type="mesh" mesh="real_wall" class="visual" rgba="0 1 0 1"/>
+        <geom type="mesh" mesh="real_wall" class="collision" friction="0.05 0.05 0.001"/>
+    </body>
+    <body pos="0.0 0.02 0">
+        <!geom type="mesh" mesh="wall_base" class="visual"/>
+        <geom type="mesh" mesh="real_wall" class="visual" rgba="0 1 0 1"/>
+        <geom type="mesh" mesh="real_wall" class="collision" friction="0.05 0.05 0.001"/>
+    </body>
+
+
+</body>
+
+<!--douple vertical -->
+<body  pos=" 0 0 0.003" euler=" 0 0 0">
+    <body pos="0 0 0">
+        <!geom type="mesh" mesh="wall_base" class="visual"/>
+        <geom type="mesh" mesh="real_wall" class="visual" rgba="0 1 0 1"/>
+        <geom type="mesh" mesh="real_wall" class="collision" friction="0.05 0.05 0.001"/>
+    </body>
+    <body pos="0.0 0.02 0">
+        <!geom type="mesh" mesh="wall_base" class="visual"/>
+        <geom type="mesh" mesh="real_wall" class="visual" rgba="0 1 0 1"/>
+        <geom type="mesh" mesh="real_wall" class="collision" friction="0.05 0.05 0.001"/>
+    </body>
+
+
+</body>
+            
+<!--four long-->
+
+<body pos=" 0 0 0.003" euler=" 0 0 0">
+
+    <body pos="0 0 0">
+        <!geom type="mesh" mesh="wall_base" class="visual"/>
+        <geom type="mesh" mesh="real_wall" class="visual" rgba="0 1 0 1"/>
+        <geom type="mesh" mesh="real_wall" class="collision" friction="0.05 0.05 0.001"/>
+    </body>
+    <body pos="0.0 0.02 0">
+        <!geom type="mesh" mesh="wall_base" class="visual"/>
+        <geom type="mesh" mesh="real_wall" class="visual" rgba="0 1 0 1"/>
+        <geom type="mesh" mesh="real_wall" class="collision" friction="0.05 0.05 0.001"/>
+    </body>
+
+    <body pos="0 0 0.04">
+        <!geom type="mesh" mesh="wall_base" class="visual"/>
+        <geom type="mesh" mesh="real_wall" class="visual" rgba="0 1 0 1"/>
+        <geom type="mesh" mesh="real_wall" class="collision" friction="0.05 0.05 0.001"/>
+    </body>
+    <body pos="0.0 0.06 0">
+        <!geom type="mesh" mesh="wall_base" class="visual"/>
+        <geom type="mesh" mesh="real_wall" class="visual" rgba="0 1 0 1"/>
+        <geom type="mesh" mesh="real_wall" class="collision" friction="0.05 0.05 0.001"/>
+    </body>
+
+    
+</body>

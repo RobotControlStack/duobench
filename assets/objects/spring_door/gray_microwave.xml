@@ -1,0 +1,34 @@
+<mujoco model="gray_microwave">
+  <compiler angle="radian" autolimits="true" />
+  <option cone="elliptic" impratio="10" />
+  <include file="./assets/microwave/microwave_asset.xml" />
+  <worldbody>
+    <body name="gray_microwave_body" childclass="microwave">
+      <inertial pos="0 0 0.1496" quat="1 0 0 0" mass="1000" diaginertia="0.373 0.770 0.793" />
+      <geom class="visual" mesh="micro" />
+      <geom class="visual" material="micro_metal" mesh="microbutton" />
+      <geom class="visual" material="micro_metal" mesh="microfeet" />
+      <site type="sphere" name="placement_site" quat="0.7071068 0 0 -0.7071068" pos="-0.064 0 0.032" size="0.016" group="0" rgba="1 1 0 1" />
+      <geom class="collision" pos="-0.2528 0.0184 0.1496" size="0.0232 0.1592 0.1496" type="box" mass=".5" />
+      <geom class="collision" pos="0.1888 0.0184 0.1496" size="0.0872 0.1592 0.1496" type="box" mass=".5" />
+      <geom class="collision" pos="-0.0648 0.1528 0.1496" size="0.1656 0.024 0.1496" type="box" mass=".5" />
+      <geom class="collision" pos="-0.064 -0.0056 0.284" size="0.1656 0.1352 0.0152" type="box" mass=".5" />
+      <geom class="collision" pos="-0.064 -0.0064 0.0192" size="0.1656 0.1344 0.0192" type="box" mass=".5" />
+      <geom class="collision" pos="0.208 -0.1576 0.1496" size="0.068 0.0192 0.1496" type="box" mass=".5" />
+      <body name="microdoorroot" pos="-0.276 -0.1408 0.1536">
+        <joint axis="0 0 1" limited="true" name="door_joint" range="-2.094 0" springref="0" stiffness="4" />
+        <inertial pos="0.192 -0.0208 0" quat="1 0 0 0" mass="0.3" diaginertia="0.0151 0.0442 0.0293" />
+        <geom class="visual" mesh="microdoor" pos="0.276 0.1408 -0.1536" />
+        <geom class="visual" material="micro_window" mesh="microwindow" pos="0.276 0.1408 -0.1536" />
+        <geom class="visual" material="micro_metal" pos="0.38 -0.0864 0" size="0.016 0.104" type="capsule" />
+        <geom class="visual" material="micro_metal" euler="1.57 0 0" pos="0.38 -0.06 0.104" size="0.016 0.024" type="capsule" />
+        <geom class="visual" material="micro_metal" euler="1.57 0 0" pos="0.38 -0.06 -0.104" size="0.016 0.024" type="capsule" />
+        <geom class="collision" pos="0.38 -0.0864 0" size="0.016 0.104" type="capsule" mass="0.020" />
+        <geom class="collision" euler="1.57 0 0" pos="0.38 -0.06 0.104" size="0.016 0.024" type="capsule" mass="0.020" />
+        <geom class="collision" euler="1.57 0 0" pos="0.38 -0.06 -0.104" size="0.016 0.024" type="capsule" mass="0.020" />
+        <geom class="collision" pos="0.2072 -0.0208 0" size="0.2072 0.0192 0.148" type="box" mass="0.20" />
+        <site type="sphere" name="microhandle_site" pos="0.38 -0.0864 0" size="0.008" group="3" rgba="1 1 0 1" />
+      </body>
+    </body>
+  </worldbody>
+</mujoco>

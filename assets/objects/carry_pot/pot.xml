@@ -1,0 +1,50 @@
+<mujoco model="pot">
+    <compiler assetdir="assets/" angle="radian"/>
+
+    <asset>
+        <mesh scale="0.15 0.15 0.15" file="handle_left_0.stl" name="handle_left_0"/>
+        <mesh scale="0.15 0.15 0.15" file="handle_left_1.stl" name="handle_left_1"/>
+        <mesh scale="0.15 0.15 0.15" file="handle_left_2.stl" name="handle_left_2"/>
+        <mesh scale="0.15 0.15 0.15" file="handle_left_3.stl" name="handle_left_3"/>
+        <mesh scale="0.15 0.15 0.15" file="handle_right_0.stl" name="handle_right_0"/>
+        <mesh scale="0.15 0.15 0.15" file="handle_right_1.stl" name="handle_right_1"/>
+        <mesh scale="0.15 0.15 0.15" file="handle_right_2.stl" name="handle_right_2"/>
+        <mesh scale="0.15 0.15 0.15" file="handle_right_3.stl" name="handle_right_3"/>
+
+        <mesh scale="0.15 0.15 0.15" file="pot_base.stl" name="pot_base"/>
+        <mesh scale="1 1 1" file="pot_visual.obj" name="pot_visual"/>
+        <mesh scale="1 1 1" file="handle_left_visual.obj" name="handle_left_visual"/>
+        <mesh scale="1 1 1" file="handle_right_visual.obj" name="handle_right_visual"/>
+        <material name="pot_metallic" rgba="0.75 0.75 0.75 1" specular="0.5" shininess="0.8"/>
+        <material name="pot_plastic" rgba="0.15 0.15 0.15 1" specular="0.2" shininess="0.3"/>
+    </asset>
+    <default>
+        <default class="chest">
+            <default class="visual">
+                <geom group="2" contype="0" conaffinity="0"/>
+            </default>
+            <default class="collision">
+                <geom group="3" condim="3" margin="0.001" density="100"/>
+            </default>
+        </default>
+    </default>
+
+
+    <worldbody>
+        <body name="pot_body" pos="0 0 0.05">
+            <joint name="pot_joint" type="free"/>
+            <geom class="visual" material="pot_metallic" type="mesh" mesh="pot_visual" />
+            <geom class="visual" material="pot_plastic" type="mesh" mesh="handle_left_visual" />
+            <geom class="visual" material="pot_plastic" type="mesh" mesh="handle_right_visual" />
+            <geom class="collision" type="mesh" mesh="pot_base" />
+            <geom class="collision" type="mesh" mesh="handle_left_0" />
+            <geom class="collision" type="mesh" mesh="handle_left_1" />
+            <geom class="collision" type="mesh" mesh="handle_left_2" />
+            <geom class="collision" type="mesh" mesh="handle_left_3" />
+            <geom class="collision" type="mesh" mesh="handle_right_0" />
+            <geom class="collision" type="mesh" mesh="handle_right_1" />
+            <geom class="collision" type="mesh" mesh="handle_right_2" />
+            <geom class="collision" type="mesh" mesh="handle_right_3" />
+        </body>
+    </worldbody>
+</mujoco>

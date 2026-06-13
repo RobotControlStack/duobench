@@ -1,0 +1,21 @@
+<mujoco model="white_cylinder">
+  <compiler angle="radian" meshdir="assets" autolimits="true" />
+  <option cone="elliptic" impratio="10" />
+  <default>
+    <default class="white_cylinder">
+      <default class="visual">
+        <geom group="2" contype="0" conaffinity="0" />
+      </default>
+      <default class="collision">
+        <geom group="3" condim="3" margin="0.001" />
+      </default>
+    </default>
+  </default>
+  <worldbody>
+    <body name="white_cylinder_body" childclass="white_cylinder">
+      <geom type="cylinder" class="visual" name="white_cylinder_visual_geom" size="0.016 0.016" rgba="0.85 0.85 0.85 1" />
+      <geom type="cylinder" class="collision" name="white_cylinder_collision_geom" size="0.016 0.016" friction="1 0.3 0.1" density="50" />
+      <joint type="free" name="white_cylinder_joint" />
+    </body>
+  </worldbody>
+</mujoco>

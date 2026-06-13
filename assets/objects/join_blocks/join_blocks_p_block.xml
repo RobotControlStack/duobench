@@ -1,0 +1,59 @@
+<mujoco>
+    <option integrator="implicitfast" impratio="20" noslip_iterations="5" cone="elliptic">
+        <flag multiccd="enable"/>
+    </option>
+   
+    <asset>
+    
+
+   
+   <!-- p block -->
+        <mesh name="p_block1" file="join_assets/pBlock/Part Studio 1 - Part 1.stl" scale="0.001 0.001 0.001"/>
+        <mesh name="p_block2" file="join_assets/pBlock/Part Studio 1 - Part 2.stl" scale="0.001 0.001 0.001"/>
+        <mesh name="p_block3" file="join_assets/pBlock/Part Studio 1 - Part 3.stl" scale="0.001 0.001 0.001"/>
+        <mesh name="p_block4" file="join_assets/pBlock/Part Studio 1 - Part 4.stl" scale="0.001 0.001 0.001"/>
+        <mesh name="p_block5" file="join_assets/pBlock/Part Studio 1 - Part 5.stl" scale="0.001 0.001 0.001"/>
+       
+ 
+
+    </asset>
+    <default>
+        <default class="visual">
+            <geom type="mesh" mass="0" group="2" material="black" contype="0" conaffinity="0"/>
+        </default>
+        <default class="collision">
+            <geom group="3" type="capsule" condim="6" friction="1 5e-3 5e-4" solref=".01 1" contype="1" conaffinity="2"/>
+        </default>
+    </default>
+
+
+    <worldbody>
+       
+
+        <body name="pblock" pos="0 0 0.05" euler="0 0  0">
+            <joint name="pblock_joint" type="free" frictionloss="0.001" damping="1"/>
+            <!-- inertial pos="0 0 0" mass="0.01" diaginertia="1e-1 1e-1 1e-1"/> -->
+           
+            <geom type="mesh" mesh="p_block1" rgba="0.8 0.8 0.8 1" group="1" contype="0" conaffinity="0"/>
+            <geom  size="0.0375 0.015 0.0125"  pos="0.09255 0.002 0.0125"  rgba="0 0.5 0 0"  type="box" friction="3.0 0.1 0.1" solref="0.003 1"
+      solimp="0.95 0.99 0.0005"
+      condim="4"
+      name = "test"
+      group ="3"/>
+
+            <geom type="mesh" mesh="p_block2" rgba="0.8 0.8 0.8 1" group="1" contype="0" conaffinity="0"/>
+            <geom type="mesh" mesh="p_block2" class="collision"  friction="1 0.5 0.5"   />
+
+            <geom type="mesh" mesh="p_block3" rgba="0.8 0.8 0.8 1" name="block_peg" group="1" contype="0" conaffinity="0"/>
+            <geom type="mesh" mesh="p_block3" class="collision"  friction="1 0.5 0.5"  />
+
+            <!-- <geom type="mesh" mesh="p_block4" rgba="0.5 0.5 0 1" group="1" contype="0" conaffinity="0"/>
+            <geom type="mesh" mesh="p_block4" class="collision"  friction="0.1 0.1 0.1"   solref="0.05 10"/>
+
+            <geom type="mesh" mesh="p_block5" rgba="0.5 0.5 0 1" group="1" contype="0" conaffinity="0"/>
+            <geom type="mesh" mesh="p_block5" class="collision"  friction="0.1 0.1 0.1"   solref="0.05 10"/> -->
+
+        </body>
+    
+    </worldbody>
+</mujoco>

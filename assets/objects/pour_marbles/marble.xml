@@ -1,0 +1,13 @@
+<mujoco model="marble">
+  <asset>
+    <!-- OpenGL params taken from here: http://devernay.free.fr/cours/opengl/materials.html -->
+    <material name="chrome" rgba="0.25 0.25 0.25 1" specular="0.774597" shininess="0.6"/>
+  </asset>
+  <worldbody>
+    <body name="marble">
+      <freejoint name="marble"/>
+      <geom type="sphere" size="0.005" material="chrome" group="3" condim="6"/>
+      <geom type="sphere" size="0.005" material="chrome" contype="0" conaffinity="0" group="2"/>
+    </body>
+  </worldbody>
+</mujoco>

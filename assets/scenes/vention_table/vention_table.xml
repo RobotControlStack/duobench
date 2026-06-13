@@ -1,0 +1,47 @@
+<mujoco model="vention_table">
+  <compiler angle="radian" assetdir="assets"  autolimits="true"/>
+  <default>
+    <default class="vention">
+      <default class="visual">
+        <geom type="mesh" contype="0" conaffinity="0" group="2"/>
+      </default>
+      <default class="visual_board">
+        <geom type="mesh" contype="0" conaffinity="0" group="2"/>
+      </default>
+      <default class="collision">
+        <geom type="mesh" group="3"/>
+      </default>
+    </default>
+  </default>
+  <asset>
+    <mesh name="table_collision_bottom"   file="stl/table_collision_bottom.stl"/>
+    <mesh name="table_collision_column_1" file="stl/table_collision_column_1.stl"/>
+    <mesh name="table_collision_column_2" file="stl/table_collision_column_2.stl"/>
+    <mesh name="table_collision_column_3" file="stl/table_collision_column_3.stl"/>
+    <mesh name="table_collision_column_4" file="stl/table_collision_column_4.stl"/>
+    <mesh name="table_collision_top" file="stl/table_collision_top.stl"/>
+    <material name="0.262745_0.282353_0.301961_0.000000_0.000000" specular="0" shininess="0.0" rgba="0.11764705882352941 0.1450980392156863 0.12941176470588237 1"/>
+    <material name="mat_0.002" specular="0.5" shininess="0.0" rgba="0.093085 0.246168 0.533335 1.000000"/>
+    <mesh file="obj/vention_table_1.obj"/>
+    <mesh file="obj/wood_board.obj"/>
+    <texture name="wood_board" file="obj/wood_board.png" type="2d"/>
+    <material name="wood_board" texture="wood_board" specular="0.0" shininess="0.0"/>
+  </asset>
+  <worldbody>
+    <body name="vention_table" childclass="vention" pos="0.232625 0 0" quat="0.707107 0 0 -0.707107">
+      <geom mesh="vention_table_1" material="mat_0.002" class="visual"/>
+      <geom class="visual_board" type="box" size="0.39 0.696 0.007" material="wood_board" pos="0 0.262525 0.815" quat="0.707107 0 0 -0.707107"/>
+      <geom class="collision" type="box" size="0.39 0.696 0.057" pos="0 0.262525 0.765" quat="0.707107 0 0 -0.707107"/>
+      <geom class="collision" mesh="table_collision_bottom" />
+      <geom class="collision" mesh="table_collision_column_1" />
+      <geom class="collision" mesh="table_collision_column_2" />
+      <geom class="collision" mesh="table_collision_column_3" />
+      <geom class="collision" mesh="table_collision_column_4" />
+      <geom class="collision" mesh="table_collision_top" />
+      <geom type="box" name="curtain_long_side" size="0.95 0.001 0.7" rgba="0 0 0 1" pos="0.0 -0.655 1.5"/>
+      <geom type="box" name="curtain_short_side_1" size="0.001 0.655 0.7" rgba="0 0 0 1" pos="-0.95 -0.001 1.5"/>
+      <geom type="box" name="curtain_short_side_2" size="0.001 0.655 0.7" rgba="0 0 0 1" pos="0.95 -0.001 1.5"/>
+      
+    </body>
+  </worldbody>
+</mujoco>

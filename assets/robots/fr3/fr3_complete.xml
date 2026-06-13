@@ -1,0 +1,4 @@
+<mujoco model="fr3">
+    <include file="fr3_common.xml"/>
+    <include file="fr3.xml"/>
+</mujoco>

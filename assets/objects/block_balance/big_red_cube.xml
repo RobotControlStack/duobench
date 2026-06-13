@@ -1,0 +1,39 @@
+<mujoco>
+    <asset>
+    <material name="black" rgba="0.15 0.15 0.15 1"/>
+    </asset>
+    <default>
+        <default class="visual">
+            <geom type="mesh" mass="0" group="1" material="black" contype="0" conaffinity="0"/>
+        </default>
+        <default class="collision">
+            <geom group="3" type="capsule" condim="6" friction="1 5e-3 5e-4" solref=".01 1"/>
+        </default>
+     </default>
+
+
+    <worldbody>
+
+
+         <body name="big_red_cube" pos="0 0 0">
+            <joint name="big_red_cube_joint" type="free" frictionloss="0.05" />
+            <!inertial pos="0.02 0.02 0.09" mass="0.01" diaginertia="0.002 0.002 0.002" />
+            <geom condim="4" friction="3.0 0.1 0.1"  pos="0 0 0" size="0.02 0.02 0.02" type="box" name="big_red_cube_geom" rgba="0.2 0.2 0.2  1" group="1" mass="0.2"/>
+        </body>
+
+
+        <!-- <body name="ball" pos="0 0 0">
+            <joint name="ball_joint" type="free" frictionloss="0.01" />
+            <!inertial pos="0.02 0.02 0.09" mass="0.01" diaginertia="0.002 0.002 0.002" />
+            <geom condim="4"  friction="0.002 0.0001 0.0001" pos=" 0 0 0" size="0.006" type="sphere" name="blue_ball" rgba="0 0 1 1" group="1" />
+        </body>
+
+       <body name="big_red_cube2" pos="0 0 0.05">
+            <joint name="big_red_cube_joint2" type="free" frictionloss="0.05" />
+            <!inertial pos="0 0 0" mass="0.5" diaginertia="1e-2 1e-2 1e-2" />
+            <geom condim="4" friction="3.0 0.1 0.1"  pos="0 0 0" size="0.02 0.02 0.02" type="box" name="big_red_cube2" rgba="1 0 0  1" group="1" />
+        </body> -->
+
+
+    </worldbody>
+</mujoco>

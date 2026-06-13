@@ -1,0 +1,24 @@
+<mujoco model="blue_pent_cylinder">
+  <compiler angle="radian" meshdir="assets" autolimits="true" />
+  <option cone="elliptic" impratio="10" />
+  <default>
+    <default class="blue_pent_cylinder">
+      <default class="visual">
+        <geom group="2" contype="0" conaffinity="0" />
+      </default>
+      <default class="collision">
+        <geom group="3" condim="3" margin="0.001" />
+      </default>
+    </default>
+  </default>
+  <asset>
+    <mesh name="blue_pent_cylinder" file="pent_cylinder.obj"   />
+  </asset>
+  <worldbody>
+    <body name="blue_pent_cylinder_body" childclass="blue_pent_cylinder">
+      <geom type="mesh" class="visual" name="blue_pent_cylinder_visual_geom" mesh="blue_pent_cylinder" rgba="0 0 1 1" />
+      <geom type="mesh" class="collision" name="blue_pent_cylinder_collision_geom" mesh="blue_pent_cylinder" friction="1.5 1.2 1" density="50" solimp="0.95 0.99" solref="0.004 1" />
+      <joint type="free" name="blue_pent_cylinder_joint" />
+    </body>
+  </worldbody>
+</mujoco>

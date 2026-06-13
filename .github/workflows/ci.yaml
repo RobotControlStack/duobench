@@ -1,0 +1,62 @@
+name: Python
+
+on:
+  workflow_call:
+  pull_request:
+  push:
+    branches:
+      - master
+
+jobs:
+  pythonpackage:
+    runs-on: ubuntu-latest
+    env:
+      CC: clang
+      CXX: clang++
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Checkout RCS
+        uses: actions/checkout@v4
+        with:
+          repository: RobotControlStack/robot-control-stack
+          ref: master
+          path: robot-control-stack
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y $(cat robot-control-stack/debian_deps.txt) xvfb
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+          cache-dependency-path: |
+            pyproject.toml
+            robot-control-stack/pyproject.toml
+
+      - name: Upgrade pip
+        run: |
+          python -m pip install --upgrade "pip>=25.1"
+          python -m pip --version
+
+      - name: Install RCS build dependencies
+        run: python -m pip install --group ./robot-control-stack/pyproject.toml:build_deps
+
+      - name: Install RCS
+        run: python -m pip install -ve ./robot-control-stack
+
+      - name: Install DuoBench
+        run: python -m pip install -ve . --group dev
+
+      - name: Check formatting
+        run: make pycheckformat
+
+      - name: Code linting
+        run: make pylint
+
+      - name: Ensure all unittests(pytest) are passing
+        run: xvfb-run -a make pytest

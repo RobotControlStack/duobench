@@ -1,0 +1,102 @@
+<mujoco>
+    <!compiler meshdir="../../scenes/" />
+    <asset>
+        
+        <mesh name="socket1" file="socket_assets/peg_board - Part 1.stl" scale="0.001 0.001 0.001"/>
+        <mesh name="socket2" file="socket_assets/peg_board - Part 2.stl" scale="0.001 0.001 0.001"/>
+        <mesh name="socket3" file="socket_assets/peg_board - Part 3.stl" scale="0.001 0.001 0.001"/>
+        <mesh name="socket4" file="socket_assets/peg_board - Part 4.stl" scale="0.001 0.001 0.001"/>
+        <mesh name="socket5" file="socket_assets/peg_board - Part 5.stl" scale="0.001 0.001 0.001"/>
+        <mesh name="socket6" file="socket_assets/peg_board - Part 6.stl" scale="0.001 0.001 0.001"/>
+        <mesh name="socket7" file="socket_assets/peg_board - Part 7.stl" scale="0.001 0.001 0.001"/>
+        <mesh name="socket8" file="socket_assets/peg_board - Part 8.stl" scale="0.001 0.001 0.001"/>
+        <mesh name="socket9" file="socket_assets/peg_board - Part 9.stl" scale="0.001 0.001 0.001"/>
+
+
+        <!-- markers-->
+        <mesh name="marker_hex" file="socket_assets/peg_board - marker_hex.stl" scale="0.001 0.001 0.001"/>
+        <!-- <mesh name="marker_square" file="socket_assets/peg_board - marker_squere.stl" scale="0.001 0.001 0.001"/>
+        <mesh name="marker_triangle" file="socket_assets/peg_board - marker_triangle.stl" scale="0.001 0.001 0.001"/> -->
+        
+        <material name="black" rgba="0.15 0.15 0.15 1"/>
+    </asset>
+    <default>
+        <default class="visual">
+            <geom type="mesh" mass="0" group="1" material="black" contype="0" conaffinity="0"/>
+        </default>
+        <default class="collision">
+            <geom group="3" type="capsule" condim="3" friction="1 5e-3 5e-4" solref="0.002 0.5" />
+        </default>
+     </default>
+    
+    <visual>
+        <headlight diffuse="0.6 0.6 0.6" ambient="0.3 0.3 0.3" specular="0 0 0"/>
+        <rgba haze="1 0.25 0.35 1"/>
+        <global azimuth="120" elevation="-20"/>
+    </visual>
+
+    
+
+    <worldbody>
+        <!-- <light pos="0 0 1.5" dir="0 0 -1" directional="true"/>
+        <geom name="floor" size="10 10 0.05" type="plane" material="groundplane" rgba="1 0 0 1"/> -->
+        <body name="socket" pos="0 0 0">
+
+            <joint name="socket_joint" type="free" frictionloss="0.0001" />
+
+            <!-- <inertial pos="0 0 0"
+                      mass="0.01"
+                      diaginertia="1e-5 1e-5 1e-5"/> -->
+
+            <!-- visual/collision geometry -->
+            
+            <geom type="mesh" mesh="socket1" class="visual"/>
+            <geom type="mesh" mesh="socket1" class="collision" />
+            <geom type="mesh" mesh="socket2" class="visual"/>
+            <geom type="mesh" mesh="socket2" class="collision" />
+            <geom type="mesh" mesh="socket3" class="visual"/>
+            <geom type="mesh" mesh="socket3" class="collision" />
+            <geom type="mesh" mesh="socket4" class="visual"/>
+            <geom type="mesh" mesh="socket4" class="collision" />
+            <geom type="mesh" mesh="socket5" class="visual"/>
+            <geom type="mesh" mesh="socket5" class="collision" />
+            <geom type="mesh" mesh="socket6" class="visual"/>
+            <geom type="mesh" mesh="socket6" class="collision" />
+            <geom type="mesh" mesh="socket7" class="visual"/>
+            <geom type="mesh" mesh="socket7" class="collision" />
+            <geom type="mesh" mesh="socket8" class="visual"/>
+            <geom type="mesh" mesh="socket8" class="collision" />
+            <geom type="mesh" mesh="socket9" class="visual"/>
+            <geom type="mesh" mesh="socket9" class="collision" />
+            
+
+            <geom type="mesh" pos="0 0 0.05"
+                      mesh="marker_hex"
+                      mass="0"
+                     
+                      contype="0" conaffinity="0"
+                      group="1"
+                      rgba="0 1 1 0" name="marker_hex"/>
+            <!-- <geom type="mesh pos="0 0 0.05"
+                      mesh="marker_squere"
+                      contype="0" conaffinity="0"
+                      group="1"
+                      rgba="0 0 1 0" name="marker_square"/>
+            <geom type="mesh " pos="0 0 0.05"
+                      mesh="marker_triangle"
+                      contype="0" conaffinity="0"
+                      group="1"
+                      rgba="0 0 1 0" name="marker_triangle"/>
+            
+              -->
+            </body>
+        </worldbody>
+
+     
+
+
+
+
+
+
+</mujoco>

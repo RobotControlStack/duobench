@@ -1,0 +1,53 @@
+<mujoco model="chest">
+
+    <compiler assetdir="assets/" angle="radian"/>
+
+    <asset>
+        <mesh file="collision_mesh_box_bottom.stl" name="chest_base_col_floor"/>
+        <mesh file="collision_mesh_box_back.stl" name="chest_base_col_xn"/>
+        <mesh file="collision_mesh_box_front.stl" name="chest_base_col_xp"/>
+        <mesh file="collision_mesh_box_right.stl" name="chest_base_col_yn"/>
+        <mesh file="collision_mesh_box_left.stl" name="chest_base_col_yp"/>
+        <mesh file="collision_mesh_lid_1.stl" name="chest_lid1_col" scale="1 1 0.33"/>
+        <mesh file="collision_mesh_lid_2.stl" name="chest_lid2_col" scale="1 1 0.33"/>
+
+        <mesh file="chest_lid.stl" name="chest_lid"/>
+        <mesh file="chest_base.stl" name="chest_base"/>
+    </asset>
+
+    <default>
+        <default class="chest">
+            <default class="visual">
+                <geom group="2" contype="0" conaffinity="0"/>
+            </default>
+            <default class="collision">
+                <geom group="3" condim="3" margin="0.001"/>
+            </default>
+        </default>
+    </default>
+
+    <worldbody>
+        <body name="chest_body" childclass="chest">
+            <inertial pos="0 0 0.078" mass="14.5" diaginertia="0.0777 0.1014 0.1202"/>
+            <!-- <freejoint name="hinge_chest_freejoint"/> -->
+            <geom class="collision" type="mesh" euler="0 0 1.5708" mesh="chest_base_col_floor"/>
+            <geom class="collision" type="mesh" euler="0 0 1.5708" mesh="chest_base_col_xn"/>
+            <geom class="collision" type="mesh" euler="0 0 1.5708" mesh="chest_base_col_xp"/>
+            <geom class="collision" type="mesh" euler="0 0 1.5708" mesh="chest_base_col_yn"/>
+            <geom class="collision" type="mesh" euler="0 0 1.5708" mesh="chest_base_col_yp"/>
+            <geom class="visual" type="mesh" euler="0 0 1.5708" rgba="0.85 0.85 0.85 1" mesh="chest_base"/>
+            <site type="box" name="placement_site" quat="1 0 0 0" pos="0.0 0.0 0.035" size="0.065 0.115 0.03" group="0" rgba="1 1 0 0" />
+            <body name="chest_lid">
+                <joint axis="0 1 0" pos="-0.080 0 0.044" limited="true" name="chest_hinge" range="-1.55 0" springref="0" stiffness="0.5" damping="0" />
+                <inertial pos="0 0 0.156" mass="0.5" diaginertia="0.00168 0.00251 0.00415"/>
+                <geom class="collision" type="mesh" euler="0 0 1.5708" pos="0 0 0.0335" mesh="chest_lid1_col"/>
+                <geom class="collision" type="mesh" euler="0 0 1.5708" pos="0 0 0.0335" mesh="chest_lid2_col"/>
+                <geom class="visual" type="mesh" euler="0 0 1.5708" rgba="0.1 0.1 0.1 1" mesh="chest_lid"/>
+            </body>
+        </body>
+
+    </worldbody>
+    <contact>
+        <exclude body1="chest_body" body2="chest_lid"/>
+    </contact>
+</mujoco>

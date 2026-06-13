@@ -1,0 +1,57 @@
+<mujoco model="white_bowl">
+  <compiler angle="radian" meshdir="assets" autolimits="true" />
+  <option cone="elliptic" impratio="10" />
+  <default>
+    <default class="white_bowl">
+      <default class="visual">
+        <geom group="2" contype="0" conaffinity="0" />
+      </default>
+      <default class="collision">
+        <geom group="3" condim="3" margin="0.001" />
+      </default>
+    </default>
+  </default>
+  <asset>
+    <material name="white" rgba="0.85 0.85 0.85 1" />
+    <mesh name="white_bowl" file="bowl.obj" />
+  </asset>
+  <worldbody>
+    <body name="white_bowl_body" childclass="white_bowl">
+      <geom type="mesh" class="visual" name="white_bowl_visual_geom" mesh="white_bowl" material="white" />
+      <geom type="box" class="collision" pos="0.085 0 0.015" euler="0 0 0" size="0.005 0.009042 0.015" friction="1 0.3 0.1" density="50" />
+      <geom type="box" class="collision" pos="0.083367 0.016583 0.015" euler="0 0 0.19635" size="0.005 0.009042 0.015" friction="1 0.3 0.1" density="50" />
+      <geom type="box" class="collision" pos="0.07853 0.032528 0.015" euler="0 0 0.392699" size="0.005 0.009042 0.015" friction="1 0.3 0.1" density="50" />
+      <geom type="box" class="collision" pos="0.070675 0.047223 0.015" euler="0 0 0.589049" size="0.005 0.009042 0.015" friction="1 0.3 0.1" density="50" />
+      <geom type="box" class="collision" pos="0.060104 0.060104 0.015" euler="0 0 0.785398" size="0.005 0.009042 0.015" friction="1 0.3 0.1" density="50" />
+      <geom type="box" class="collision" pos="0.047223 0.070675 0.015" euler="0 0 0.981748" size="0.005 0.009042 0.015" friction="1 0.3 0.1" density="50" />
+      <geom type="box" class="collision" pos="0.032528 0.07853 0.015" euler="0 0 1.178097" size="0.005 0.009042 0.015" friction="1 0.3 0.1" density="50" />
+      <geom type="box" class="collision" pos="0.016583 0.083367 0.015" euler="0 0 1.374447" size="0.005 0.009042 0.015" friction="1 0.3 0.1" density="50" />
+      <geom type="box" class="collision" pos="0 0.085 0.015" euler="0 0 1.570796" size="0.005 0.009042 0.015" friction="1 0.3 0.1" density="50" />
+      <geom type="box" class="collision" pos="-0.016583 0.083367 0.015" euler="0 0 1.767146" size="0.005 0.009042 0.015" friction="1 0.3 0.1" density="50" />
+      <geom type="box" class="collision" pos="-0.032528 0.07853 0.015" euler="0 0 1.963495" size="0.005 0.009042 0.015" friction="1 0.3 0.1" density="50" />
+      <geom type="box" class="collision" pos="-0.047223 0.070675 0.015" euler="0 0 2.159845" size="0.005 0.009042 0.015" friction="1 0.3 0.1" density="50" />
+      <geom type="box" class="collision" pos="-0.060104 0.060104 0.015" euler="0 0 2.356194" size="0.005 0.009042 0.015" friction="1 0.3 0.1" density="50" />
+      <geom type="box" class="collision" pos="-0.070675 0.047223 0.015" euler="0 0 2.552544" size="0.005 0.009042 0.015" friction="1 0.3 0.1" density="50" />
+      <geom type="box" class="collision" pos="-0.07853 0.032528 0.015" euler="0 0 2.748894" size="0.005 0.009042 0.015" friction="1 0.3 0.1" density="50" />
+      <geom type="box" class="collision" pos="-0.083367 0.016583 0.015" euler="0 0 2.945243" size="0.005 0.009042 0.015" friction="1 0.3 0.1" density="50" />
+      <geom type="box" class="collision" pos="-0.085 0 0.015" euler="0 0 3.141593" size="0.005 0.009042 0.015" friction="1 0.3 0.1" density="50" />
+      <geom type="box" class="collision" pos="-0.083367 -0.016583 0.015" euler="0 0 3.337942" size="0.005 0.009042 0.015" friction="1 0.3 0.1" density="50" />
+      <geom type="box" class="collision" pos="-0.07853 -0.032528 0.015" euler="0 0 3.534292" size="0.005 0.009042 0.015" friction="1 0.3 0.1" density="50" />
+      <geom type="box" class="collision" pos="-0.070675 -0.047223 0.015" euler="0 0 3.730641" size="0.005 0.009042 0.015" friction="1 0.3 0.1" density="50" />
+      <geom type="box" class="collision" pos="-0.060104 -0.060104 0.015" euler="0 0 3.926991" size="0.005 0.009042 0.015" friction="1 0.3 0.1" density="50" />
+      <geom type="box" class="collision" pos="-0.047223 -0.070675 0.015" euler="0 0 4.12334" size="0.005 0.009042 0.015" friction="1 0.3 0.1" density="50" />
+      <geom type="box" class="collision" pos="-0.032528 -0.07853 0.015" euler="0 0 4.31969" size="0.005 0.009042 0.015" friction="1 0.3 0.1" density="50" />
+      <geom type="box" class="collision" pos="-0.016583 -0.083367 0.015" euler="0 0 4.516039" size="0.005 0.009042 0.015" friction="1 0.3 0.1" density="50" />
+      <geom type="box" class="collision" pos="0 -0.085 0.015" euler="0 0 4.712389" size="0.005 0.009042 0.015" friction="1 0.3 0.1" density="50" />
+      <geom type="box" class="collision" pos="0.016583 -0.083367 0.015" euler="0 0 4.908739" size="0.005 0.009042 0.015" friction="1 0.3 0.1" density="50" />
+      <geom type="box" class="collision" pos="0.032528 -0.07853 0.015" euler="0 0 5.105088" size="0.005 0.009042 0.015" friction="1 0.3 0.1" density="50" />
+      <geom type="box" class="collision" pos="0.047223 -0.070675 0.015" euler="0 0 5.301438" size="0.005 0.009042 0.015" friction="1 0.3 0.1" density="50" />
+      <geom type="box" class="collision" pos="0.060104 -0.060104 0.015" euler="0 0 5.497787" size="0.005 0.009042 0.015" friction="1 0.3 0.1" density="50" />
+      <geom type="box" class="collision" pos="0.070675 -0.047223 0.015" euler="0 0 5.694137" size="0.005 0.009042 0.015" friction="1 0.3 0.1" density="50" />
+      <geom type="box" class="collision" pos="0.07853 -0.032528 0.015" euler="0 0 5.890486" size="0.005 0.009042 0.015" friction="1 0.3 0.1" density="50" />
+      <geom type="box" class="collision" pos="0.083367 -0.016583 0.015" euler="0 0 6.086836" size="0.005 0.009042 0.015" friction="1 0.3 0.1" density="50" />
+      <geom type="cylinder" class="collision" pos="0 0 0.002" size="0.085 0.002" friction="1 0.3 0.1" density="50" />
+      <joint type="free" name="white_bowl_joint" />
+    </body>
+  </worldbody>
+</mujoco>

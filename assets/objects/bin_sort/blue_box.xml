@@ -1,0 +1,24 @@
+<mujoco model="blue_box">
+  <compiler angle="radian" meshdir="assets" autolimits="true" />
+  <option cone="elliptic" impratio="10" />
+  <default>
+    <default class="blue_box">
+      <default class="visual">
+        <geom group="2" contype="0" conaffinity="0" />
+      </default>
+      <default class="collision">
+        <geom group="3" condim="3" margin="0.001" />
+      </default>
+    </default>
+  </default>
+  <asset>
+    <mesh name="blue_quad_cylinder" file="quad_cylinder.obj"   />
+  </asset>
+  <worldbody>
+    <body name="blue_box_body" childclass="blue_box">
+      <geom type="mesh" mesh="blue_quad_cylinder" class="visual" name="blue_box_visual_geom" rgba="0 0 1 1" />
+      <geom type="mesh" mesh="blue_quad_cylinder" class="collision" name="blue_box_collision_geom" friction="1.5 1.2 1" density="50" solimp="0.95 0.99" solref="0.004 1" />
+      <joint type="free" name="blue_box_joint" />
+    </body>
+  </worldbody>
+</mujoco>

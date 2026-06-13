@@ -1,0 +1,54 @@
+<mujoco>
+    <!compiler meshdir="../../scenes/" />
+    <asset>
+        
+        <mesh name="peg" file="peg_assets/peg_board - peg2.stl" scale="0.001 0.001 0.001"/>
+        
+        
+        
+    </asset>
+    <default>
+        <default class="visual">
+            <geom type="mesh" mass="0" group="1" material="black" contype="0" conaffinity="0"/>
+        </default>
+        <default class="collision">
+            <geom group="3" type="capsule" condim="6" friction="1 5e-3 5e-4" solref=".01 1" />
+        </default>
+     </default>
+    
+    <visual>
+        <headlight diffuse="0.6 0.6 0.6" ambient="0.3 0.3 0.3" specular="0 0 0"/>
+        <rgba haze="1 0.25 0.35 1"/>
+        <global azimuth="120" elevation="-20"/>
+    </visual>
+
+    
+
+    <worldbody>
+        <!-- <light pos="0 0 1.5" dir="0 0 -1" directional="true"/>
+        <geom name="floor" size="10 10 0.05" type="plane" material="groundplane" rgba="1 0 0 1"/> -->
+        <body name="peg" pos="0 0 0">
+
+            <joint name="peg_joint" type="free" frictionloss="0.0001" damping="1"/>
+
+            <inertial pos="0 0 0"
+                      mass="0.01"
+                      diaginertia="1e-5 1e-5 1e-5"/>
+
+            <!-- visual/collision geometry -->
+            
+            <geom type="mesh" mesh="peg" class="visual"/>
+            <geom type="mesh" mesh="peg" class="collision" friction="0.05 0.05 0.001"/>
+            
+
+            </body>
+        </worldbody>
+
+     
+
+
+
+
+
+
+</mujoco>

@@ -1,0 +1,51 @@
+<mujoco>
+    <option integrator="implicitfast" impratio="20" noslip_iterations="5" cone="elliptic">
+        <flag multiccd="enable"/>
+    </option>
+    
+    <asset>
+       
+   <!-- wall-->
+        <mesh name="wall1" file="join_assets/wall/Part Studio 1 - Part 1.stl" scale="0.001 0.001 0.001"/>
+        <mesh name="wall2" file="join_assets/wall/Part Studio 1 - Part 2.stl" scale="0.001 0.001 0.001"/>
+        <mesh name="wall3" file="join_assets/wall/Part Studio 1 - Part 3.stl" scale="0.001 0.001 0.001"/>
+        <mesh name="wall4" file="join_assets/wall/Part Studio 1 - Part 4.stl" scale="0.001 0.001 0.001"/>
+
+    </asset>
+    <default>
+        <default class="visual">
+            <geom type="mesh" mass="0" group="2" material="black" contype="0" conaffinity="0"/>
+        </default>
+        <default class="collision">
+            <geom group="3" type="capsule" condim="6" friction="1 5e-3 5e-4" solref=".01 1"/>
+        </default>
+    </default>
+
+
+
+    <worldbody>
+       
+
+        <body name="wall" pos="0 -0.1 -0.1" euler="0 0  90">
+            <joint name="wall_joint" type="free" damping="1000" armature="10"/>
+            <!-- <joint name="hblock_joint" type="free" frictionloss="0.001" />
+            <inertial pos="0 0 0" mass="0.05" diaginertia="1e-1 1e-1 1e-1"/> -->
+           
+            <geom type="mesh" mesh="wall1" rgba="0.5 0.5 0.5 1" group="1"/>
+            <geom type="mesh" mesh="wall1" class="collision"  friction="0.8 0.1 0.1" />
+
+            <geom type="mesh" mesh="wall2" rgba="0.8 0.8 0.8 1" name="wall_peg" group="1"/>
+            <geom type="mesh" mesh="wall2" class="collision"  friction="0.8 0.1 0.1" />
+
+            <!-- <geom type="mesh" mesh="wall3" rgba="0 0.5 0.5 1" />
+            <geom type="mesh" mesh="wall3" class="collision"  friction="0.00002 0.00001 0.00001" /> -->
+
+            <geom type="mesh" mesh="wall4" rgba="0.5 0.5 0.5 1"  group="1"/>
+            <geom type="mesh" mesh="wall4" class="collision"  friction="0.8 0.1 0.1"/>
+
+
+        </body>
+
+
+    </worldbody>
+</mujoco>

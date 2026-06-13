@@ -1,0 +1,7 @@
+This directory contains third-party Franka hand assets derived from MuJoCo
+Menagerie.
+
+License: Apache-2.0.
+Additional upstream notices are documented in:
+
+../../../THIRD_PARTY_LICENSES.md

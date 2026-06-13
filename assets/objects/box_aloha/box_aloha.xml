@@ -1,0 +1,74 @@
+<mujoco>
+    <option integrator="implicitfast" impratio="20" noslip_iterations="5" cone="elliptic">
+        <flag multiccd="enable"/>
+    </option>
+    <asset>
+    <!-- lid -->
+   
+    <mesh name="lid1" file="task_assets/take_from_box/lid/Part Studio 1 - Part 6.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="lid2" file="task_assets/take_from_box/lid/Part Studio 1 - Part 7.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="lid3" file="task_assets/take_from_box/lid/Part Studio 1 - Part 8.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="lid4" file="task_assets/take_from_box/lid/Part Studio 1 - Part 9.stl" scale="0.001 0.001 0.001"/>
+
+   
+   <!-- p block -->
+        
+    <mesh name="box1" file="task_assets/take_from_box/box/Part Studio 1 - Part 1.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="box2" file="task_assets/take_from_box/box/Part Studio 1 - Part 2.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="box3" file="task_assets/take_from_box/box/Part Studio 1 - Part 3.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="box4" file="task_assets/take_from_box/box/Part Studio 1 - Part 4.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="box5" file="task_assets/take_from_box/box/Part Studio 1 - Part 5.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="marker" file="task_assets/take_from_box/box/Part Studio 1 - Part 10.stl" scale="0.001 0.001 0.001"/>
+    </asset>
+       
+
+    <worldbody>
+       
+
+        <body name="whole_box" pos="0 0 0" >
+            <!-- <joint name="box_joint" type="free" frictionloss="0.001" />
+            <inertial pos="0 0 0" mass="10" diaginertia="1e-1 1e-1 1e-1"/> -->
+            <body name="lid" quat="1 0 0 1">
+                <joint name="pblock_joint" type="hinge" pos="0 -0.2 0.085" axis="1 0 0" range="0 90"/>
+                <inertial pos="0 0 0" mass="0.25" diaginertia="1e-2 1e-2 1e-2"/>
+            
+                <geom type="mesh" mesh="lid1" rgba="0.5 0.5 0 1" name="lid1" friction="0.2 0.1 0.1"/>
+               
+
+                <geom type="mesh" mesh="lid2" rgba="0.5 0.5 0 1" name="lid3"/>
+
+
+                <geom type="mesh" mesh="lid3" rgba="0.5 0.5 0 1" />
+         
+                 <!-- geom type="mesh" mesh="box5" class="collision"  mass="0" name="marker" friction="0" /> -->
+
+                <geom type="mesh" mesh="lid4" rgba="0.5 0.5 0 1" />
+           
+            </body>
+
+            <body name="box" quat="1 0 0 1">
+                <inertial pos="0 0 0" mass="10" diaginertia="1e-1 1e-1 1e-1"/>
+                <geom type="mesh" mesh="box1" rgba="0 0.5 0 1" name="box_floor"/>
+      
+
+                <geom type="mesh" mesh="box2" rgba="0 0.5 0 1" />
+        
+
+                <geom type="mesh" mesh="box3" rgba="0 0.5 0 1" />
+             
+
+                <geom type="mesh" mesh="box4" rgba="0 0.5 0 1" />
+              
+
+                <geom type="mesh" mesh="box5" rgba="0 0.5 0 1" />
+           
+
+            </body>
+
+        </body>
+
+    </worldbody>
+
+
+
+</mujoco>

@@ -1,0 +1,27 @@
+<mujoco model="takeout">
+  <compiler assetdir="assets/takeout/"/>
+
+  <asset>
+    <mesh name="takeout" file="takeout.obj"/>
+    <mesh name="takeout_col" file="takeout.stl"/>
+  </asset>
+
+  <default>
+    <default class="takeout">
+      <default class="visual">
+        <geom group="2" contype="0" conaffinity="0"/>
+      </default>
+      <default class="collision">
+        <geom group="3" condim="3" margin="0.001"/>
+      </default>
+    </default>
+  </default>
+
+  <worldbody>
+    <body name="takeout_body" childclass="takeout">
+      <freejoint name="takeout_joint"/>
+      <geom class="visual" type="mesh" mesh="takeout" />
+      <geom class="collision" type="mesh" mesh="takeout_col" />
+    </body>
+  </worldbody>
+</mujoco>

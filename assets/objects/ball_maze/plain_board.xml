@@ -1,0 +1,141 @@
+<mujoco>
+    <compiler meshdir="./" />
+    <asset>
+    <!-- frame -->
+    <mesh name="frame1" file="task_assets/maze_assets_2/compose_rim/compose_rim - Part 2 (1).stl" scale="0.001 0.001 0.001"/>
+    <mesh name="frame2" file="task_assets/maze_assets_2/compose_rim/compose_rim - Part 2 (2).stl" scale="0.001 0.001 0.001"/>
+    <mesh name="frame3" file="task_assets/maze_assets_2/compose_rim/compose_rim - Part 2 (3).stl" scale="0.001 0.001 0.001"/>
+    <mesh name="frame4" file="task_assets/maze_assets_2/compose_rim/compose_rim - Part 2.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="frame5" file="task_assets/maze_assets_2/compose_rim/compose_rim - Part 3 (1).stl" scale="0.001 0.001 0.001"/>
+    <mesh name="frame6" file="task_assets/maze_assets_2/compose_rim/compose_rim - Part 3 (2).stl" scale="0.001 0.001 0.001"/>
+    <mesh name="frame7" file="task_assets/maze_assets_2/compose_rim/compose_rim - Part 3 (3).stl" scale="0.001 0.001 0.001"/>
+    <mesh name="frame8" file="task_assets/maze_assets_2/compose_rim/compose_rim - Part 3.stl" scale="0.001 0.001 0.001"/>
+
+
+
+    <!-- floorplate-->
+    <mesh name="floorplate" file="task_assets/maze_assets_2/floorplate - Part 1.stl" scale="0.001 0.001 0.001"/>
+
+     <!-- floor-->
+    <mesh name="floor" file="task_assets/maze_assets_2/baseplate - baseplate_1.stl" scale="0.001 0.001 0.001"/>
+
+
+     <!-- wallplate-->
+    <mesh name="wall_base" file="task_assets/maze_assets_2/wall_plate/wall_plate - Part 1.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="real_wall" file="task_assets/maze_assets_2/wall_plate/wall_plate - Part 2.stl" scale="0.001 0.001 0.001"/>
+
+        <material name="black" rgba="0.15 0.15 0.15 1"/>
+    </asset>
+    <default>
+        <default class="visual">
+            <geom type="mesh" mass="0" group="2" material="black" contype="0" conaffinity="0"/>
+        </default>
+        <default class="collision">
+            <geom group="3" type="capsule" condim="6" friction="1 5e-3 5e-4" solref=".01 1"/>
+        </default>
+     </default>
+    
+    <visual>
+        <headlight diffuse="0.6 0.6 0.6" ambient="0.3 0.3 0.3" specular="0 0 0"/>
+        <rgba haze="1 0.25 0.35 1"/>
+        <global azimuth="120" elevation="-20"/>
+    </visual>
+
+    <asset>
+        <texture type="skybox" builtin="gradient" rgb1="0.3 0.5 0.7" rgb2="0 0 0" width="512" height="3072"/>
+        <texture type="2d" name="groundplane" builtin="checker" mark="edge" rgb1="0.2 0.3 0.4" rgb2="0.1 0.2 0.3"
+          markrgb="0.8 0.8 0.8" width="300" height="300"/>
+        <material name="groundplane" texture="groundplane" texuniform="true" texrepeat="5 5" reflectance="0.2"/>
+    </asset>
+
+    <worldbody>
+        <light pos="0 0 1.5" dir="0 0 -1" directional="true"/>
+        <geom name="floor" size="10 10 0.05" type="plane" material="groundplane" rgba="1 0 0 1"/>
+
+        
+
+        <body name="board">
+
+            <joint name="board_joint" type="free" frictionloss="0.0001"/>
+
+            <!-- IMPORTANT: inertial must exist for free joint body -->
+            <inertial pos="0 0 0"
+                      mass="0.01"
+                      diaginertia="1e-5 1e-5 1e-5"/>
+
+            <!-- visual/collision geometry -->
+            <body name="frame">
+
+                <geom type="mesh" mesh="frame1" class="visual"/>
+                <geom type="mesh" mesh="frame1" class="collision" friction="0.05 0.05 0.001"/>
+
+                <geom type="mesh" mesh="frame2" class="visual"/>
+                <geom type="mesh" mesh="frame2" class="collision" friction="0.05 0.05 0.001"/>
+
+                <geom type="mesh" mesh="frame3" class="visual"/>
+                <geom type="mesh" mesh="frame3" class="collision" friction="0.05 0.05 0.001"/>
+
+                <geom type="mesh" mesh="frame4" class="visual"/>
+                <geom type="mesh" mesh="frame4" class="collision" friction="0.05 0.05 0.001"/>
+
+                <geom type="mesh" mesh="frame5" class="visual"/>
+                <geom type="mesh" mesh="frame5" class="collision" friction="0.05 0.05 0.001"/>
+
+                <geom type="mesh" mesh="frame6" class="visual"/>
+                <geom type="mesh" mesh="frame6" class="collision" friction="0.05 0.05 0.001"/>
+
+                <geom type="mesh" mesh="frame7" class="visual"/>
+                <geom type="mesh" mesh="frame7" class="collision" friction="0.05 0.05 0.001"/>
+
+                <geom type="mesh" mesh="frame8" class="visual"/>
+                <geom type="mesh" mesh="frame8" class="collision" friction="0.05 0.05 0.001"/>
+
+            </body>
+            <!-- oben links  = -0.09  0.09 0.003"-->
+            <!-- oben rechts = "0.09  0.09 0.003"-->
+            <!-- unten rechts = 0.09  -0.09 0.003"-->
+            <!-- unten links  = "-0.09  -0.09 0.003"-->
+            <body name="marker_goal" pos="0.09  0.09 0.003">
+                <geom type="mesh"
+                      mesh="floorplate"
+                      class="visual"
+                      rgba="1 1 0 1"/>
+            </body>
+
+            <!-- <body name="marker_start" pos=" 0 0.003 ">
+                <geom type="mesh"
+                      mesh="floorplate"
+                      class="visual"
+                      rgba="0 0 1 1"/>
+            </body> -->
+
+            <body name="floor" pos="0 0 0">
+
+                <geom type="mesh" mesh="floor" class="visual"/>
+                <geom type="mesh" mesh="floor" class="collision" friction="0.05 0.05 0.001"/>
+
+
+
+            </body>
+
+
+        </body>
+
+
+
+        <body name="ball" pos="0.09  0.09 0.003">
+            <joint name="ball_joint" type="free" frictionloss="0.01" />
+            <inertial pos="0.02 0.02 0.09" mass="0.005" diaginertia="0.002 0.002 0.002" />
+            <geom condim="4" solimp="2 1 0.01" solref="0.01 1" friction="0.002 0.0001 0.0001" pos=" 0 0 0" size="0.006" type="sphere" name="blue_ball" rgba="0 0 1 1" />
+        </body>
+    </worldbody>
+
+   <keyframe>
+        <key name="init"
+             qpos="0 0 0.01   1 0 0 0 0.09  0.09 0.08 1 0 0 0" />
+    </keyframe>
+
+   
+
+
+</mujoco>

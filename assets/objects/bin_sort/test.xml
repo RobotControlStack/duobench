@@ -1,0 +1,63 @@
+<mujoco model="black_bowl">
+  <compiler angle="radian" meshdir="assets" autolimits="true" />
+  <option cone="elliptic" impratio="10" />
+  <default>
+    <default class="black_bowl">
+      <default class="visual">
+        <geom group="2" contype="0" conaffinity="0" />
+      </default>
+      <default class="collision">
+        <geom group="3" condim="3" margin="0.001" />
+      </default>
+    </default>
+  </default>
+  <default>
+    <default class="black_dec_cylinder">
+      <default class="c_visual">
+        <geom group="2" contype="0" conaffinity="0" />
+      </default>
+      <default class="c_collision">
+        <geom group="3" condim="3" margin="0.001" />
+      </default>
+    </default>
+  </default>
+  <asset>
+    <mesh name="black_dec_cylinder" file="dec_cylinder.obj"   />
+  </asset>
+  <asset>
+    <material name="black" rgba="0 0 0 1" />
+    <mesh name="black_bowl" file="bowl.obj" />
+  </asset>
+  <asset>
+        <texture type="skybox" builtin="gradient" rgb1="0.3 0.5 0.7" rgb2="0 0 0" width="512" height="3072"/>
+        <texture type="2d" name="groundplane" builtin="checker" mark="edge" rgb1="0.2 0.3 0.4" rgb2="0.1 0.2 0.3"
+          markrgb="0.8 0.8 0.8" width="300" height="300"/>
+        <material name="groundplane" texture="groundplane" texuniform="true" texrepeat="5 5" reflectance="0.2"/>
+    </asset>
+  <worldbody>
+  <light pos="0 0 2" dir="0 0 -1" directional="true"/>
+        <geom name="floor" size="0 0 0.05" type="plane" material="groundplane"/>
+  <body name="black_dec_cylinder_body" childclass="black_dec_cylinder" pos="0 0 0.1">
+      <geom type="mesh" class="c_visual" name="black_dec_cylinder_visual_geom" mesh="black_dec_cylinder" rgba="0 0 0 1" />
+      <geom type="mesh" class="c_collision" name="black_dec_cylinder_collision_geom" mesh="black_dec_cylinder" friction="1 0.3 0.1" density="50" />
+      <joint type="free" name="black_dec_cylinder_joint" />
+    </body>
+    <body name="black_bowl_body" childclass="black_bowl" pos="0 0 0.05" euler="0 0 0">
+      <geom type="mesh" class="visual" name="black_bowl_visual_geom" mesh="black_bowl" material="black" />
+      <geom type="box" class="collision" pos="0.058 0 0.015" euler="0 0 0" size="0.005 0.017218 0.015" friction="1 0.3 0.1" density="50" />
+      <geom type="box" class="collision" pos="0.050229 0.029 0.015" euler="0 0 0.523599" size="0.005 0.017218 0.015" friction="1 0.3 0.1" density="50" />
+      <geom type="box" class="collision" pos="0.029 0.050229 0.015" euler="0 0 1.047198" size="0.005 0.017218 0.015" friction="1 0.3 0.1" density="50" />
+      <geom type="box" class="collision" pos="0 0.058 0.015" euler="0 0 1.570796" size="0.005 0.017218 0.015" friction="1 0.3 0.1" density="50" />
+      <geom type="box" class="collision" pos="-0.029 0.050229 0.015" euler="0 0 2.094395" size="0.005 0.017218 0.015" friction="1 0.3 0.1" density="50" />
+      <geom type="box" class="collision" pos="-0.050229 0.029 0.015" euler="0 0 2.617994" size="0.005 0.017218 0.015" friction="1 0.3 0.1" density="50" />
+      <geom type="box" class="collision" pos="-0.058 0 0.015" euler="0 0 3.141593" size="0.005 0.017218 0.015" friction="1 0.3 0.1" density="50" />
+      <geom type="box" class="collision" pos="-0.050229 -0.029 0.015" euler="0 0 3.665191" size="0.005 0.017218 0.015" friction="1 0.3 0.1" density="50" />
+      <geom type="box" class="collision" pos="-0.029 -0.050229 0.015" euler="0 0 4.18879" size="0.005 0.017218 0.015" friction="1 0.3 0.1" density="50" />
+      <geom type="box" class="collision" pos="0 -0.058 0.015" euler="0 0 4.712389" size="0.005 0.017218 0.015" friction="1 0.3 0.1" density="50" />
+      <geom type="box" class="collision" pos="0.029 -0.050229 0.015" euler="0 0 5.235988" size="0.005 0.017218 0.015" friction="1 0.3 0.1" density="50" />
+      <geom type="box" class="collision" pos="0.050229 -0.029 0.015" euler="0 0 5.759587" size="0.005 0.017218 0.015" friction="1 0.3 0.1" density="50" />
+      <geom type="cylinder" class="collision" pos="0 0 0.002" size="0.058 0.002" friction="1 0.3 0.1" density="50" />
+      <joint type="free" name="black_bowl_joint" />
+    </body>
+  </worldbody>
+</mujoco>

@@ -1,0 +1,6 @@
+This directory contains third-party Robotiq 2F-85 assets derived from MuJoCo
+Menagerie.
+
+The upstream license text for this directory is documented in:
+
+../../../THIRD_PARTY_LICENSES.md
