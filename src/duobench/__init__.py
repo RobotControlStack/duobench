@@ -8,14 +8,14 @@ import rcs
 from rcs import get_prefix
 from rcs._core import common
 
-RCS_DUOBENCH_GITHUB_ASSET_ARCHIVE_URL = "https://github.com/RobotControlStack/rcs_duobench/archive/refs/tags/{tag}.zip"
+DUOBENCH_GITHUB_ASSET_ARCHIVE_URL = "https://github.com/RobotControlStack/duobench/archive/refs/tags/{tag}.zip"
 
-RCS_DUOBENCH_PREFIX = get_prefix(
-    os.environ.get("RCS_DUOBENCH_PREFIX"),
+DUOBENCH_PREFIX = get_prefix(
+    os.environ.get("DUOBENCH_PREFIX"),
     Path(__file__).resolve().parents[2],
-    Path.home() / ".rcs_duobench",
+    Path.home() / ".duobench",
     __version__,
-    RCS_DUOBENCH_GITHUB_ASSET_ARCHIVE_URL,
+    DUOBENCH_GITHUB_ASSET_ARCHIVE_URL,
 )
 
 CAMERA_PATHS: dict[str, str] = {}
@@ -97,10 +97,10 @@ SCENE_PATHS = {
     "vention_world": "assets/scenes/vention_table/vention_world.xml",
 }
 
-# Append RCS_DUOBENCH package prefix to all asset paths
+# Append DUOBENCH package prefix to all asset paths
 for path_dict in (GRIPPER_PATHS, SCENE_PATHS, OBJECT_PATHS, CAMERA_PATHS):
     for name, path in path_dict.items():
-        abs_path = os.path.join(RCS_DUOBENCH_PREFIX, path)
+        abs_path = os.path.join(DUOBENCH_PREFIX, path)
         if not os.path.isfile(abs_path):
             error_msg = f"Asset {name} not found at path: {abs_path}. Please make sure to download the assets."
             raise FileNotFoundError(error_msg)

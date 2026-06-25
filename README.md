@@ -57,6 +57,16 @@ cd duobench
 pip install -ve .
 ```
 
+### Asset Cache Location
+
+DuoBench resolves its asset directory from the `DUOBENCH_PREFIX` environment variable. If `DUOBENCH_PREFIX` is not set, it defaults to `~/.duobench`.
+
+On import, DuoBench checks whether that path exists. If it does not, the package downloads the matching asset archive from GitHub into that location automatically. This makes the default setup work out of the box, while still letting you point assets at a custom directory when needed.
+
+```shell
+export DUOBENCH_PREFIX=/path/to/duobench-assets
+```
+
 ## Quickstart
 
 Tasks need to be imported as `from duobench.tasks import <task_id>`.
