@@ -30,27 +30,18 @@ The setup is designed to stay reproducible across labs: tasks can be instantiate
 
 ## Installation
 
-DuoBench builds on the Robot Control Stack (`rcs`) in the parent repository. A clean Python 3.11 environment is recommended. 🚀
-
-### 1. Install RCS
-
-Make sure common build tools and a C++ compiler such as `gcc` or `clang` are available.
-
+### Installation from PyPI (recommended)
 ```shell
-git clone https://github.com/RobotControlStack/robot-control-stack.git
-cd robot-control-stack
-
-conda create -n rcs python=3.11
-conda activate rcs
-conda install -c conda-forge urdfdom urdfdom_headers glfw
-
-pip install 'pip>=25.1'
-pip install --group build_deps
-pip install -ve .
+pip install duobench
 ```
 
-### 2. Install DuoBench
+### Installation from Source
+This is recommended for developers that need to modify sources of either DuoBench or RCS.
 
+#### 1. Install RCS
+Follow the install instructions from the [RCS Repo](https://github.com/RobotControlStack/robot-control-stack) (either from PyPI or from source).
+
+#### 2. Install DuoBench
 ```shell
 git clone https://github.com/RobotControlStack/duobench.git
 cd duobench
