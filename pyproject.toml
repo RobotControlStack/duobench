@@ -5,8 +5,9 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "duobench"
 version = "0.1.0"
-description="RCS models module"
+description="FR3 Duo Bimanual Manipulation Benchmark"
 dependencies = [
+    "rcs-core>=0.7.2",
     "av>=17.0.1",
     "einops>=0.8.2",
     "scipy>=1.15.3",
@@ -14,10 +15,10 @@ dependencies = [
 ]
 readme = "README.md"
 maintainers = [
-  { name = "Tobias Jülg", email = "tobias.juelg@utn.de" },
+  { name = "Tobias Juelg", email = "tobias.juelg@utn.de" },
 ]
 authors = [
-  { name = "Tobias Jülg", email = "tobias.juelg@utn.de" },
+  { name = "Tobias Juelg", email = "tobias.juelg@utn.de" },
 ]
 requires-python = ">=3.11"
 license = { text = "Apache-2.0" }
