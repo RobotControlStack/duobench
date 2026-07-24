@@ -25,7 +25,7 @@ class BallMazeTaskConfig(BaseTaskConfig):
     board_number = 2
     object_body = "board"
     include_rotation: bool = True
-    task_instructions = "pick up the board and tilt it so the ball roles onto the red square"
+    task_instructions = "pick up the board and tilt it so the ball rolls onto the red square"
     hard_reset = False
     x_width = 0.3
     y_width = 0.3
