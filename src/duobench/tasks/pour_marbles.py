@@ -1,6 +1,6 @@
 import math
 from dataclasses import dataclass, field
-from typing import Any
+from typing import Any, Literal
 
 import gymnasium as gym
 import mujoco as mj
@@ -301,12 +301,19 @@ class PourMarblesTaskWrapper(TaskStageWrapper):
         super().__init__(env, stage_tracker)
         self.stage_tracker: PourMarblesStage = stage_tracker
         self.sim = self.get_wrapper_attr("sim")
+        task_cfg = self.get_wrapper_attr("task_cfg")
+        self.marble_spawn_cup: Literal["random", "left", "right"] = task_cfg.marble_spawn_cup
 
     def reset(self, *, seed: int | None = None, options: dict[str, Any] | None = None):
         obs, info = super().reset(seed=seed, options=options)
 
-        self.stage_tracker.target_cup = "left" if self.np_random.random() > 0.5 else "right"
-        self.stage_tracker.source_cup = "right" if self.stage_tracker.target_cup == "left" else "left"
+        if self.marble_spawn_cup == "random":
+            source_cup: Literal["left", "right"] = "left" if self.np_random.random() > 0.5 else "right"
+        else:
+            source_cup = self.marble_spawn_cup
+
+        self.stage_tracker.source_cup = source_cup
+        self.stage_tracker.target_cup = "right" if source_cup == "left" else "left"
         lc = self.sim.data.body("leftteacup_body")
         rc = self.sim.data.body("rightteacup_body")
         tf_W_LC = RigidTransform.from_components(lc.xpos, Rotation.from_matrix(lc.xmat.reshape((3, 3))))
@@ -343,6 +350,7 @@ class PourMarblesTaskWrapper(TaskStageWrapper):
 @dataclass(kw_only=True)
 class PourMarblesTaskConfig(BaseTaskConfig):
     task_id: str = "pour_marbles"
+    marble_spawn_cup: Literal["random", "left", "right"] = "right"
     cup_xml = rcs.OBJECT_PATHS["teacup"]
     marble_xml = rcs.OBJECT_PATHS["marble"]
     marbles_to_mug: rcs.common.Pose = field(
