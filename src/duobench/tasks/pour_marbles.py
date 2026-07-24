@@ -87,6 +87,16 @@ class PourMarblesStage(TaskStage):
         self.left_cup_upright = True
         self.right_cup_upright = True
 
+    def set_pour_direction(self, source_cup: Literal["left", "right"], target_cup: Literal["left", "right"]):
+        self.source_cup = source_cup
+        self.target_cup = target_cup
+        self.instruction = (
+            f"grasp and lift both cups, then pour the marbles from the {source_cup} cup into the {target_cup} cup "
+            "and place the cups back to their original location inside the green square"
+        )
+        self.stage_to_subinstructions[3] = f"pour at least one marble from the {source_cup} cup into the {target_cup} cup"
+        self.stage_to_subinstructions[4] = f"pour all marbles from the {source_cup} cup into the {target_cup} cup"
+
     def _ensure_collision_geoms(self, sim: Sim):
         if self.collision_geoms is not None:
             return
@@ -312,8 +322,8 @@ class PourMarblesTaskWrapper(TaskStageWrapper):
         else:
             source_cup = self.marble_spawn_cup
 
-        self.stage_tracker.source_cup = source_cup
-        self.stage_tracker.target_cup = "right" if source_cup == "left" else "left"
+        target_cup: Literal["left", "right"] = "right" if source_cup == "left" else "left"
+        self.stage_tracker.set_pour_direction(source_cup, target_cup)
         lc = self.sim.data.body("leftteacup_body")
         rc = self.sim.data.body("rightteacup_body")
         tf_W_LC = RigidTransform.from_components(lc.xpos, Rotation.from_matrix(lc.xmat.reshape((3, 3))))
