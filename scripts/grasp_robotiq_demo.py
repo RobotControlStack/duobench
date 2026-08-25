@@ -96,7 +96,7 @@ def main():
     scene = EmptyWorldFR3()
     cfg = scene.config()
     cfg.control_mode = ControlMode.CARTESIAN_TRPY
-    cfg.robot_cfgs['robot'].tcp_offset = rcs.GRIPPER_OFFSETS[rcs.common.GripperType("Robotiq2F85")]
+    cfg.robot_cfgs["robot"].tcp_offset = rcs.GRIPPER_TCP_OFFSETS[rcs.common.GripperType("Robotiq2F85")]
     cfg.relative_to = RelativeTo.NONE
     gripper_cfg = SimGripperConfig(
         epsilon_inner=0.005,
@@ -113,13 +113,8 @@ def main():
         min_actuator_width=255,
         gripper_type=GripperType("Robotiq2F85"),
     )
-    cfg.gripper_cfgs = {
-        "robot": gripper_cfg
-    }
-    gripper_offset = rcs.common.Pose(
-        quaternion=np.array([0, 0, 0.7071068, 0.7071068]), translation=np.array([0.0, 0.0, 0.0])
-    )
-    cfg.gripper_offsets = {"robot": gripper_offset}
+    cfg.gripper_cfgs = {"robot": gripper_cfg}
+    cfg.gripper_offsets = {"robot": rcs.GRIPPER_MOUNT_OFFSETS[rcs.common.GripperType("Robotiq2F85")]}
     cfg.sim_cfg.realtime = False
     cfg.sim_cfg.async_control = True
     cfg.max_relative_movement = None
