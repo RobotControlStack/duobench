@@ -89,12 +89,16 @@ OBJECT_PATHS: dict[str, str] = {
     "maze8": "assets/objects/ball_maze/maze_simple_8.xml",
     "maze9": "assets/objects/ball_maze/maze_simple_9.xml",
     "maze10": "assets/objects/ball_maze/maze_simple_10.xml",
+
+    # robot mount (should go in RCS)
+    "robot_mount": "assets/objects/robot_mount/robot_mount.xml",
 }
 
 
 SCENE_PATHS = {
     "empty_world": "assets/scenes/base_world.xml",
     "vention_world": "assets/scenes/vention_table/vention_world.xml",
+    "single_arm": "assets/scenes/single_arm/single_arm.xml",
 }
 
 # Append DUOBENCH package prefix to all asset paths
