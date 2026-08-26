@@ -1,7 +1,9 @@
 <?xml version="1.0" ?>
 <mujoco model="blocksuite_sim2real_scene">
   <compiler angle="radian" autolimits="true" meshdir="assets" balanceinertia="true" texturedir="assets"/>
-  <option gravity="0 0 -9.81"/>
+  <option gravity="0 0 -9.81" integrator="implicitfast" impratio="20" noslip_iterations="5" cone="elliptic">
+    <flag multiccd="enable"/>
+  </option>
   <asset>
     <mesh name="robot_workstation" file="robot_workstation.obj" inertia="shell"/>
     <mesh name="modular_wall" file="modular_wall.obj" inertia="shell"/>
