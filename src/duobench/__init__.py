@@ -90,8 +90,6 @@ OBJECT_PATHS: dict[str, str] = {
     "maze9": "assets/objects/ball_maze/maze_simple_9.xml",
     "maze10": "assets/objects/ball_maze/maze_simple_10.xml",
 
-    # robot mount (should go in RCS)
-    "robot_mount": "assets/objects/robot_mount/robot_mount.xml",
 }
 
 
