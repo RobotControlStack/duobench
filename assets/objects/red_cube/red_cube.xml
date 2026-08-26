@@ -1,0 +1,11 @@
+<mujoco model="red_cube">
+  <!-- Sim2real toy block: red cube, 0.045 m side (Isaac blocksuite parity).
+       Contact options are inherited from the scene it is attached to. -->
+  <worldbody>
+    <body name="red_cube_body">
+      <geom type="box" size="0.0225 0.0225 0.0225" rgba="1 0 0 1" name="red_cube_geom"
+            friction="1 0.3 0.1" density="50" group="1"/>
+      <joint type="free" name="red_cube_joint"/>
+    </body>
+  </worldbody>
+</mujoco>

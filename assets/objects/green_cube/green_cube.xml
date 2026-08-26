@@ -1,0 +1,11 @@
+<mujoco model="green_cube">
+  <!-- Sim2real toy block: green cube (target), 0.045 m side (Isaac blocksuite parity).
+       Contact options are inherited from the scene it is attached to. -->
+  <worldbody>
+    <body name="green_cube_body">
+      <geom type="box" size="0.0225 0.0225 0.0225" rgba="0 1 0 1" name="green_cube_geom"
+            friction="1 0.3 0.1" density="50" group="1"/>
+      <joint type="free" name="green_cube_joint"/>
+    </body>
+  </worldbody>
+</mujoco>
