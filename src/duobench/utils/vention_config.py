@@ -1,6 +1,7 @@
 import time
 
-from rcs import DEFAULT_TRANSFORMS, SCENE_PATHS
+from duobench import SCENE_PATHS
+from rcs import DEFAULT_TRANSFORMS
 from rcs.envs.configs import EmptyWorldFR3Duo
 from rcs.envs.scenes import SimEnvCreatorConfig
 
