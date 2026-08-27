@@ -1,17 +1,27 @@
 import time
 
 from duobench import SCENE_PATHS
-from rcs import DEFAULT_TRANSFORMS
+import numpy as np
+from rcs import DEFAULT_TRANSFORMS, OBJECT_PATHS
 from rcs._core import common
 from rcs.envs.configs import EmptyWorldDroid, EmptyWorldFR3, EmptyWorldFR3Duo
 from rcs.envs.scenes import SimEnvCreatorConfig
 
 
 class SingleArm(EmptyWorldDroid):
+    # "duo_mount": (OBJECT_PATHS["fr3_single_mount"], common.Pose(translation=[-0.0263, 0, -0.011], rpy_vector=[0, 0, -np.deg2rad(90)])),
     def config(self) -> SimEnvCreatorConfig:
         cfg = super().config()
         cfg.scene = SCENE_PATHS["single_arm"]
-        cfg.root_frame_to_world = common.Pose()
+        # 0.011 = width of mount plate, 0.035=distance from center of mounting plate to franka
+        # workstation depth / 2 - front depth + distance to plate back + plate depth / 2
+        # >>> 81.0/2 - 31.5+4.5 + 25.5/2
+        # 26.25
+        cfg.root_frame_to_world = common.Pose(translation=[0.2625+0.035, 0, 0.7533+0.011])
+
+        cfg.root_frame_objects = {
+            "duo_mount": (OBJECT_PATHS["fr3_single_mount"], common.Pose(translation=[-0.035, 0, -0.011], rpy_vector=[0, 0, -np.deg2rad(90)])),
+        }
         return cfg
 
 
