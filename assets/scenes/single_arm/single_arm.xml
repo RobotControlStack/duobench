@@ -33,61 +33,61 @@
     <material name="decor_mat" rgba="0.55 0.65 0.75 0.5"/>
   </asset>
   <worldbody>
-    <light name="top" pos="0 0 3" dir="0 0 -1" directional="true" diffuse="0.6 0.6 0.6"/>
-    <geom name="floor" type="plane" pos="0 0 -0.737" size="0 0 0.05" material="grid"/>
+    <light name="top" pos="0.29 0 3.737" dir="0 0 -1" directional="true" diffuse="0.6 0.6 0.6"/>
+    <geom name="floor" type="plane" pos="0.29 0 0" size="0 0 0.05" material="grid"/>
     <!-- robot_workstation: workstation / scenery -->
-    <body name="robot_workstation" pos="-0.29 -6.43929e-17 -0.737" quat="0.707107 0 0 -0.707107">
+    <body name="robot_workstation" pos="0 0 0" quat="0.707107 0 0 -0.707107">
       <geom name="robot_workstation_visual" type="mesh" mesh="robot_workstation" material="tex_robot_workstation" contype="0" conaffinity="0" group="2"/>
       <geom name="robot_workstation_collision" type="box" pos="0 0.000460505 0.376422" quat="1 0 0 0" size="0.568002 0.411 0.376911" rgba="0 0 0 0" group="3"/>
     </body>
     <!-- modular_wall_left_1: boundary wall -->
-    <body name="modular_wall_left_1" pos="0.274 -0.715 -0.737" quat="1 0 0 1.11022e-16">
+    <body name="modular_wall_left_1" pos="0.564 -0.715 0" quat="1 0 0 0">
       <geom name="modular_wall_left_1_visual" type="mesh" mesh="modular_wall" material="tex_modular_wall" contype="0" conaffinity="0" group="2"/>
       <geom name="modular_wall_left_1_collision" type="box" pos="0.489709 1.39816e-07 1.05" quat="1 0 0 0" size="0.489709 0.0118394 1.05" rgba="0 0 0 0" group="3"/>
     </body>
     <!-- modular_wall_right_1: boundary wall -->
-    <body name="modular_wall_right_1" pos="0.274 0.715 -0.737" quat="1 0 0 1.11022e-16">
+    <body name="modular_wall_right_1" pos="0.564 0.715 0" quat="1 0 0 0">
       <geom name="modular_wall_right_1_visual" type="mesh" mesh="modular_wall" material="tex_modular_wall" contype="0" conaffinity="0" group="2"/>
       <geom name="modular_wall_right_1_collision" type="box" pos="0.489709 1.39816e-07 1.05" quat="1 0 0 0" size="0.489709 0.0118394 1.05" rgba="0 0 0 0" group="3"/>
     </body>
     <!-- modular_wall_right_0: boundary wall -->
-    <body name="modular_wall_right_0" pos="-0.71 0.715 -0.737" quat="1 0 0 1.11022e-16">
+    <body name="modular_wall_right_0" pos="-0.42 0.715 0" quat="1 0 0 0">
       <geom name="modular_wall_right_0_visual" type="mesh" mesh="modular_wall" material="tex_modular_wall" contype="0" conaffinity="0" group="2"/>
       <geom name="modular_wall_right_0_collision" type="box" pos="0.489709 1.39816e-07 1.05" quat="1 0 0 0" size="0.489709 0.0118394 1.05" rgba="0 0 0 0" group="3"/>
     </body>
     <!-- modular_wall_left_0: boundary wall -->
-    <body name="modular_wall_left_0" pos="-0.71 -0.715 -0.737" quat="1 0 0 1.11022e-16">
+    <body name="modular_wall_left_0" pos="-0.42 -0.715 0" quat="1 0 0 0">
       <geom name="modular_wall_left_0_visual" type="mesh" mesh="modular_wall" material="tex_modular_wall" contype="0" conaffinity="0" group="2"/>
       <geom name="modular_wall_left_0_collision" type="box" pos="0.489709 1.39816e-07 1.05" quat="1 0 0 0" size="0.489709 0.0118394 1.05" rgba="0 0 0 0" group="3"/>
     </body>
     <!-- window_frame_bottom: decor (visual only) -->
-    <body name="window_frame_bottom" pos="-0.71 -0.2404 0.401837" quat="0.707107 0 0 -0.707107">
+    <body name="window_frame_bottom" pos="-0.42 -0.2404 1.138837" quat="0.707107 0 0 -0.707107">
       <geom name="window_frame_bottom_visual" type="mesh" mesh="window_frame" material="decor_mat" contype="0" conaffinity="0" group="2"/>
     </body>
     <!-- window_frame_top: decor (visual only) -->
-    <body name="window_frame_top" pos="-0.71 -0.240538 0.851123" quat="0.707107 0 0 -0.707107">
+    <body name="window_frame_top" pos="-0.42 -0.240538 1.588123" quat="0.707107 0 0 -0.707107">
       <geom name="window_frame_top_visual" type="mesh" mesh="window_frame" material="decor_mat" contype="0" conaffinity="0" group="2"/>
     </body>
     <!-- wall: boundary wall -->
-    <body name="wall" pos="-0.71 -1.57652e-16 -0.737" quat="0.707107 0 0 -0.707107">
+    <body name="wall" pos="-0.42 0 0" quat="0.707107 0 0 -0.707107">
       <geom name="wall_visual" type="mesh" mesh="back_wall_w_holes" material="wall_mat" contype="0" conaffinity="0" group="2"/>
       <geom name="wall_collision" type="box" pos="0 0 1" quat="1 0 0 0" size="2 0.0001 2" rgba="0 0 0 0" group="3"/>
     </body>
     <!-- window_background_bottom: decor (visual only) -->
-    <body name="window_background_bottom" pos="-0.72 -0.2404 0.401837" quat="0.707107 0 0 -0.707107">
+    <body name="window_background_bottom" pos="-0.43 -0.2404 1.138837" quat="0.707107 0 0 -0.707107">
       <geom name="window_background_bottom_visual" type="mesh" mesh="window_background" material="decor_mat" contype="0" conaffinity="0" group="2"/>
     </body>
     <!-- window_background_top: decor (visual only) -->
-    <body name="window_background_top" pos="-0.71 -0.240538 0.851123" quat="0.707107 0 0 -0.707107">
+    <body name="window_background_top" pos="-0.42 -0.240538 1.588123" quat="0.707107 0 0 -0.707107">
       <geom name="window_background_top_visual" type="mesh" mesh="window_background" material="decor_mat" contype="0" conaffinity="0" group="2"/>
     </body>
     <!-- workspace_table: manipulation table (primary collider) -->
-    <body name="workspace_table" pos="0.4888 1.08535e-16 0" quat="0.707107 0 0 -0.707107">
+    <body name="workspace_table" pos="0.7788 0 0.737" quat="0.707107 0 0 -0.707107">
       <geom name="workspace_table_visual" type="mesh" mesh="table" material="tex_table" contype="0" conaffinity="0" group="2"/>
       <geom name="workspace_table_collision" type="box" pos="0 0 0" quat="1 0 0 0" size="0.35 0.7 0.01" rgba="0 0 0 0" group="3"/>
     </body>
     <!-- Robot base mounts at the frame origin (robot-base frame). -->
-    <body name="robot_mount" pos="0 0 0">
+    <body name="robot_mount" pos="0.29 0 0.737">
       <site name="robot_attachment" pos="0 0 0" size="0.02" rgba="1 0 0 1" group="3"/>
     </body>
   </worldbody>
