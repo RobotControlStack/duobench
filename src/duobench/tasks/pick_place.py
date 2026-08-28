@@ -18,20 +18,24 @@ class PickPlaceStage(TaskStage):
     """
     Pick the red cube and place it on top of the green cube.
 
-    Stages:
+    Stages (monotonic, each gated on the previous):
       0 - initial
-      1 - the red cube has been picked up (grasped and lifted off the table)
-      2 - success: the red cube rests on top of the green cube (stacked, settled, released)
+      1 - the red cube has been touched by the gripper
+      2 - the red cube has been lifted off the table (while grasped)
+      3 - the red cube touches the green cube
+      4 - success: red rests on green (stacked, settled) and the gripper is retracted
     """
 
     def __init__(self, cfg: "PickPlaceTaskConfig", prefix: str = "PickPlace_"):
         super().__init__(
-            max_stage=2,
-            internal_state={"picked": False, "placed": False},
+            max_stage=4,
+            internal_state={"touched": False, "lifted": False, "touched_green": False, "placed": False},
             stage_to_subinstructions={
-                0: "pick up the red cube",
-                1: "stack the red cube on top of the green cube",
-                2: "task completed; the red cube rests on the green cube",
+                0: "reach for and touch the red cube",
+                1: "grasp and lift the red cube off the table",
+                2: "move the lifted red cube over the green cube",
+                3: "lower the red cube so it rests on the green cube, then let go",
+                4: "task completed; the red cube rests on the green cube and the gripper is retracted",
             },
             instruction=cfg.task_instructions,
         )
@@ -42,6 +46,7 @@ class PickPlaceStage(TaskStage):
         self.red_geom = f"{prefix}red_{cfg.cube_geom}"
         self.green_geom = f"{prefix}green_{cfg.cube_geom}"
         self.red_init_z: float | None = None
+        self._gripper_body_ids: list[int] | None = None
 
     def reset(self):
         super().reset()
@@ -55,6 +60,18 @@ class PickPlaceStage(TaskStage):
             raise ValueError(msg)
         return i
 
+    def _gripper_bodies(self, sim: Sim) -> list[int]:
+        if self._gripper_body_ids is None:
+            self._gripper_body_ids = [
+                i
+                for i in range(sim.model.nbody)
+                if (
+                    (name := sim.model.body(i).name)
+                    and (name.startswith("gripper") or "pad" in name or "finger" in name)
+                )
+            ]
+        return self._gripper_body_ids
+
     def _red_touching_gripper(self, sim: Sim, red_body_id: int) -> bool:
         model, data = sim.model, sim.data
         for i in range(data.ncon):
@@ -67,6 +84,12 @@ class PickPlaceStage(TaskStage):
             if other.startswith("gripper") or "pad" in other or "finger" in other:
                 return True
         return False
+
+    def _min_gripper_distance(self, sim: Sim, red_pos: np.ndarray) -> float:
+        ids = self._gripper_bodies(sim)
+        if not ids:
+            return float("inf")
+        return min(float(np.linalg.norm(red_pos - sim.data.xpos[i])) for i in ids)
 
     def _geoms_in_contact(self, sim: Sim, geom_a: int, geom_b: int) -> bool:
         data = sim.data
@@ -87,26 +110,37 @@ class PickPlaceStage(TaskStage):
         if self.red_init_z is None:
             self.red_init_z = float(red[2])
 
-        settled = float(np.linalg.norm(sim.data.cvel[rb])) < self.cfg.settle_speed
+        s = self.internal_state
         red_in_gripper = self._red_touching_gripper(sim, rb)
-        lifted = red[2] > self.red_init_z + self.cfg.lift_thresh
-
+        lifted_height = red[2] > self.red_init_z + self.cfg.lift_thresh
+        settled = float(np.linalg.norm(sim.data.cvel[rb])) < self.cfg.settle_speed
         on_green = self._geoms_in_contact(sim, rg, gg)
-        above = (red[2] - green[2]) > self.cfg.above_thresh  # red center clearly above green center
-        aligned = float(np.linalg.norm(red[:2] - green[:2])) < self.cfg.xy_tol
-        placed = on_green and above and aligned and settled and not red_in_gripper
+        stacked = on_green and (red[2] - green[2]) > self.cfg.above_thresh and (
+            float(np.linalg.norm(red[:2] - green[:2])) < self.cfg.xy_tol
+        )
+        retracted = (not red_in_gripper) and self._min_gripper_distance(sim, red) > self.cfg.retract_dist
 
-        if red_in_gripper and lifted:
-            self.internal_state["picked"] = True
-        if placed:
-            self.internal_state["placed"] = True
+        # monotonic, each stage gated on the previous
+        if red_in_gripper:
+            s["touched"] = True
+        if s["touched"] and red_in_gripper and lifted_height:
+            s["lifted"] = True
+        if s["lifted"] and on_green:
+            s["touched_green"] = True
+        if s["touched_green"] and stacked and settled and retracted:
+            s["placed"] = True
 
         self.update_stage()
 
     def update_stage(self):
-        if self.internal_state["placed"]:
+        s = self.internal_state
+        if s["placed"]:
+            self.stage = 4
+        elif s["touched_green"]:
+            self.stage = 3
+        elif s["lifted"]:
             self.stage = 2
-        elif self.internal_state["picked"]:
+        elif s["touched"]:
             self.stage = 1
         else:
             self.stage = 0
@@ -114,7 +148,7 @@ class PickPlaceStage(TaskStage):
     @property
     def info(self) -> dict[str, Any]:
         base = super().info
-        base.update({"picked": self.internal_state["picked"], "placed": self.internal_state["placed"]})
+        base.update(dict(self.internal_state))
         return base
 
 
@@ -130,10 +164,11 @@ class PickPlaceTaskConfig(BaseTaskConfig):
     cube_joint: str = "box_joint"
 
     # success thresholds
-    lift_thresh: float = 0.03  # red must rise this much above its start to count as "picked"
+    lift_thresh: float = 0.03  # red must rise this much above its start to count as "lifted"
     above_thresh: float = 0.02  # red center must be this far above green center (stacked, not beside)
     xy_tol: float = 0.03  # horizontal alignment of red over green
     settle_speed: float = 0.05  # red spatial-velocity norm below this counts as "at rest"
+    retract_dist: float = 0.08  # nearest gripper body must be this far from red to count as "retracted"
 
     objects_xml: dict[str, str] = field(
         default_factory=lambda: {"red_cube": rcs.OBJECT_PATHS["red_cube"], "green_cube": rcs.OBJECT_PATHS["green_cube"]}
