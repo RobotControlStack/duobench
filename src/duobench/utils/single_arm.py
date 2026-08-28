@@ -24,7 +24,11 @@ class SingleArm(EmptyWorldDroid):
         }
         cfg.robot_frame_objects = {
             "right": {
-                "zed_mount": (
+                # Key must start with the robot prefix ("right") so the composer's gravity
+                # compensation (_apply_gravcomp matches body names by prefix) covers this
+                # wrist-mounted object. Otherwise its weight loads the wrist and, with
+                # RelativeTo.LAST_STEP, accumulates into a downward TCP drift.
+                "right_zed_mount": (
                     OBJECT_PATHS["droid_wrist_mount"],
                     common.Pose(rpy_vector=[-np.pi/2, 0, np.pi/2], translation=[-0.034, 0, -0.008]),
                 )
@@ -40,7 +44,22 @@ class SingleArm(EmptyWorldDroid):
                 ),
                 robot_name="right",
             ),
-
+            # External (world-fixed) ZED 2i front camera.
+            # Extrinsics given as T_base_cam (camera in the robot-base frame), ROS convention.
+            # robot_name=None => offset is expressed in the root (robot-base) frame, so it maps
+            # directly to the calibrated T_base_cam. Two conversions are baked into the numbers:
+            #   1) ROS optical (+Z fwd,+X right,+Y down) -> MuJoCo camera (-Z fwd,+Y up): Rx(180deg).
+            #   2) the zed2i <camera> element sits at pos=(0,-0.02,0.005) euler=(-90,0,0) inside the
+            #      part, so offset = T_base_lens_mujoco * (zed2i_camera_pose)^-1.
+            # Original calibration: pos=(0.944958, 0.000714, 0.48414),
+            #   rot(wxyz,ROS)=(-0.3265056, 0.6272114, 0.6272114, -0.3265056).
+            "front": CameraAdderConfig(
+                xml_path=CAMERA_PATHS["zed2i"],
+                offset=common.Pose(
+                    translation=[0.958473, 0.000714, 0.499707],
+                    quaternion=[-0.67438, -0.67438, -0.212631, -0.212631],
+                ),
+            ),
         }
         return cfg
 
