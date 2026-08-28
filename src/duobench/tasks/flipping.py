@@ -10,6 +10,7 @@ from rcs.sim.composer import ModelComposer
 from rcs.sim.sim import Sim
 
 from duobench.tasks import TaskStage, TaskStageWrapper
+from duobench.utils.helper_wrappers import RandomSquareObjsPos
 from duobench.utils.single_arm import SingleArm
 
 
@@ -132,10 +133,13 @@ class FlippingTaskConfig(BaseTaskConfig):
     objects_xml: dict[str, str] = field(
         default_factory=lambda: {"red_cube": rcs.OBJECT_PATHS["red_cube"]}
     )
-    # cube start pose relative to the root (robot-base) frame; ~40 cm in front, on the table
+    # randomization origin
     object_center_to_root_frame: rcs.common.Pose = field(
         default_factory=lambda: rcs.common.Pose(translation=np.array([0.4, 0.0, 0.01]))
     )
+    rand_x_width: float = 0.2
+    rand_y_width: float = 0.2
+    obj_position_margin: float = 0.05
 
 
 class FlippingTask(Task[FlippingTaskConfig]):
@@ -150,7 +154,17 @@ class FlippingTask(Task[FlippingTaskConfig]):
     def add_task_env(
         cfg: FlippingTaskConfig, env: gym.Env, simulation: Sim, env_cfg: SimEnvCreatorConfig
     ) -> gym.Env:
-        _ = simulation, env_cfg
+        _ = simulation
+        env = RandomSquareObjsPos(
+            env,
+            center2world=env_cfg.root_frame_to_world * cfg.object_center_to_root_frame,
+            obj_joint_names=[f"{cfg.prefix}{cfg.cube_joint}"],
+            x_width=cfg.rand_x_width,
+            y_width=cfg.rand_y_width,
+            z_init=0.0,
+            include_rotation=False,
+            obj_position_margin=cfg.obj_position_margin,
+        )
         return TaskStageWrapper(env, FlippingStage(cfg, prefix=cfg.prefix))
 
 
