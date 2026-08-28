@@ -18,6 +18,8 @@ class SingleArm(EmptyWorldDroid):
         # >>> 81.0/2 - 31.5+4.5 + 25.5/2
         # 26.25
         cfg.root_frame_to_world = common.Pose(translation=[0.2625+0.035, 0, 0.7533+0.011])
+        cfg.robot_cfgs["right"].kp = [100., 100., 100., 100., 75., 150., 50.]
+        cfg.robot_cfgs["right"].kv = [20., 20., 20., 20., 7.5, 15.0, 5.0]
 
         cfg.root_frame_objects = {
             "fr3_single_mount": (OBJECT_PATHS["fr3_single_mount"], common.Pose(translation=[-0.035, 0, -0.011], rpy_vector=[0, 0, -np.deg2rad(90)])),
