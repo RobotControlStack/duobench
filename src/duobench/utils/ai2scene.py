@@ -8,6 +8,8 @@ from rcs.envs.base import ControlMode, RelativeTo
 if __name__ == "__main__":
     scene = FlippingEnvConfig()
     cfg = scene.config()
+    cfg.robot_cfgs["right"].kp = [100., 100., 100., 100., 75., 150., 50.]
+    cfg.robot_cfgs["right"].kv = [20., 20., 20., 20., 7.5, 15.0, 5.0]
     cfg.control_mode = ControlMode.JOINTS
     cfg.relative_to = RelativeTo.NONE
     cfg.headless = True
