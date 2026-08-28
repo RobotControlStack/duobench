@@ -5,6 +5,7 @@
     <flag multiccd="enable"/>
   </option>
   <asset>
+    <texture type="skybox" builtin="gradient" rgb1="0.3 0.5 0.7" rgb2="0 0 0" width="512" height="3072"/>
     <mesh name="robot_workstation" file="robot_workstation.obj" inertia="shell"/>
     <mesh name="modular_wall" file="modular_wall.obj" inertia="shell"/>
     <mesh name="window_frame" file="window_frame.obj" inertia="shell"/>

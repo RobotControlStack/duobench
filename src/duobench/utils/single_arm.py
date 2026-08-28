@@ -4,6 +4,7 @@ from duobench import SCENE_PATHS
 import numpy as np
 from rcs import CAMERA_PATHS, DEFAULT_TRANSFORMS, OBJECT_PATHS
 from rcs._core import common
+from rcs._core.sim import CameraType, SimCameraConfig
 from rcs.envs.configs import EmptyWorldDroid, EmptyWorldFR3, EmptyWorldFR3Duo
 from rcs.envs.scenes import CameraAdderConfig, SimEnvCreatorConfig
 
@@ -59,6 +60,22 @@ class SingleArm(EmptyWorldDroid):
                     translation=[0.958473, 0.000714, 0.499707],
                     quaternion=[-0.67438, -0.67438, -0.212631, -0.212631],
                 ),
+            ),
+        }
+        cfg.camera_cfgs = {
+            "front": SimCameraConfig(
+                identifier="front",
+                type=CameraType.fixed,
+                resolution_width=1280,
+                resolution_height=720,
+                frame_rate=30,
+            ),
+            "right_wrist": SimCameraConfig(
+                identifier="right_wrist",
+                type=CameraType.fixed,
+                resolution_width=1280,
+                resolution_height=720,
+                frame_rate=30,
             ),
         }
         return cfg
