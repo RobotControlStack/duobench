@@ -34,7 +34,7 @@
     <material name="decor_mat" rgba="0.55 0.65 0.75 0.5"/>
   </asset>
   <worldbody>
-    <light name="top" pos="0.29 0 3.737" dir="0 0 -1" directional="true" diffuse="0.6 0.6 0.6"/>
+    <light name="top" pos="0.29 0 3.737" dir="0 0 -1" directional="true" diffuse="0.6 0.6 0.6" castshadow="false"/>
     <geom name="floor" type="plane" pos="0.29 0 0" size="0 0 0.05" material="grid"/>
     <!-- robot_workstation: workstation / scenery -->
     <body name="robot_workstation" pos="0 0 0" quat="0.707107 0 0 -0.707107">
@@ -83,7 +83,8 @@
       <geom name="window_background_top_visual" type="mesh" mesh="window_background" material="decor_mat" contype="0" conaffinity="0" group="2"/>
     </body> -->
     <!-- workspace_table: manipulation table (primary collider) -->
-    <body name="workspace_table" pos="0.7788 0 0.737" quat="0.707107 0 0 -0.707107">
+    <!-- <body name="workspace_table" pos="0.7788 0 0.737" quat="0.707107 0 0 -0.707107"> -->
+    <body name="workspace_table" pos="0.7788 0 0.7643" quat="0.707107 0 0 -0.707107">
       <geom name="workspace_table_visual" type="mesh" mesh="table" material="tex_table" contype="0" conaffinity="0" group="2"/>
       <geom name="workspace_table_collision" type="box" pos="0 0 0" quat="1 0 0 0" size="0.35 0.7 0.01" rgba="0 0 0 0" group="3"/>
     </body>
