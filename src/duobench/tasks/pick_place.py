@@ -184,10 +184,10 @@ class PickPlaceTaskConfig(BaseTaskConfig):
     # center of the random-placement square (both cubes placed randomly here each reset), at a
     # height where the cubes rest on the table
     task_center_to_root_frame: rcs.common.Pose = field(
-        default_factory=lambda: rcs.common.Pose(translation=np.array([0.4, 0.0, 0.01]))
+        default_factory=lambda: rcs.common.Pose(translation=np.array([0.5, 0.0, 0.05]))
     )
     rand_x_width: float = 0.2
-    rand_y_width: float = 0.3
+    rand_y_width: float = 0.4
     obj_position_margin: float = 0.09  # keep red and green well separated at start
 
 

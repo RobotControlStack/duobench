@@ -135,10 +135,10 @@ class FlippingTaskConfig(BaseTaskConfig):
     )
     # randomization origin
     object_center_to_root_frame: rcs.common.Pose = field(
-        default_factory=lambda: rcs.common.Pose(translation=np.array([0.4, 0.0, 0.01]))
+        default_factory=lambda: rcs.common.Pose(translation=np.array([0.5, 0.0, 0.05]))
     )
     rand_x_width: float = 0.2
-    rand_y_width: float = 0.2
+    rand_y_width: float = 0.4
     obj_position_margin: float = 0.05
 
 
