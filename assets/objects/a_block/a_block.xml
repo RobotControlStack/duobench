@@ -1,0 +1,25 @@
+<mujoco model="a_block">
+  <compiler assetdir="assets" angle="radian"/>
+  <asset>
+    <mesh name="alphabet_block_large_base" file="alphabet_block_large_base.obj"/>
+    <texture name="alphabet_block_large_base_tex" type="2d" file="alphabet_block_large_base_albedotransparency_baked.png"/>
+    <material name="alphabet_block_large_base_mat" texture="alphabet_block_large_base_tex" texuniform="false"/>
+  </asset>
+  <default>
+    <default class="a_block">
+      <default class="visual">
+        <geom group="2" contype="0" conaffinity="0" type="mesh"/>
+      </default>
+      <default class="collision">
+        <geom group="3" condim="4" type="box" friction="0.3 0.3 0.1" priority="1" density="440" solref="0.004 1" solimp="0.95 0.99 0.001"/>
+      </default>
+    </default>
+  </default>
+  <worldbody>
+    <body name="a_block_body" childclass="a_block">
+      <freejoint name="a_block_joint"/>
+      <geom class="visual" mesh="alphabet_block_large_base" material="alphabet_block_large_base_mat" name="a_block_alphabet_block_large_base"/>
+      <geom class="collision" name="a_block_collision" size="0.021 0.021 0.021"/>
+    </body>
+  </worldbody>
+</mujoco>

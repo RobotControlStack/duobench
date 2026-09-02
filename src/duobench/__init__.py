@@ -89,6 +89,8 @@ OBJECT_PATHS: dict[str, str] = {
     "maze8": "assets/objects/ball_maze/maze_simple_8.xml",
     "maze9": "assets/objects/ball_maze/maze_simple_9.xml",
     "maze10": "assets/objects/ball_maze/maze_simple_10.xml",
+    # train_blocks (alphabet blocks, converted from USD)
+    "a_block": "assets/objects/a_block/a_block.xml",
 
 }
 

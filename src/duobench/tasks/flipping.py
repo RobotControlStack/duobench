@@ -121,9 +121,9 @@ class FlippingTaskConfig(BaseTaskConfig):
     task_instructions: str = "flip the red cube so that the face that is initially on top ends up on a side"
 
     # red_cube.xml element names (prefixed at attach time)
-    cube_body: str = "box_body"
-    cube_geom: str = "box_geom"
-    cube_joint: str = "box_joint"
+    cube_body: str = "a_block_body"
+    cube_geom: str = "a_block_geom"
+    cube_joint: str = "a_block_joint"
 
     # classification thresholds (on the up-face normal's world z-component)
     side_cos_thresh: float = 0.5  # |z| < 0.5  -> on a side  (angle within [60, 120] deg)
@@ -131,7 +131,7 @@ class FlippingTaskConfig(BaseTaskConfig):
     settle_speed: float = 0.05  # cube spatial-velocity norm below this counts as "at rest"
 
     objects_xml: dict[str, str] = field(
-        default_factory=lambda: {"red_cube": rcs.OBJECT_PATHS["red_cube"]}
+        default_factory=lambda: {"red_cube": rcs.OBJECT_PATHS["a_block"]}
     )
     # randomization origin
     object_center_to_root_frame: rcs.common.Pose = field(
