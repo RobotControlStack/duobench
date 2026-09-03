@@ -50,6 +50,7 @@ class SingleArm(EmptyWorldDroid):
                 rpy_vector=[2.530727947461584, 0.0, np.pi / 2],
             ),
         )
+        cfg.camera_adds.pop("wrist", None)
         cfg.camera_adds["gripper_rgb"] = CameraAdderConfig(
             xml_path=CAMERA_PATHS["zed_mini"],
             offset=common.Pose(
@@ -58,6 +59,7 @@ class SingleArm(EmptyWorldDroid):
             ),
             robot_name="right",
         )
+        cfg.gravcomp_ignore = (cfg.gravcomp_ignore - {"wrist"}) | {"gripper_rgb"}
         cfg.camera_cfgs = {
             "front_rgb": SimCameraConfig(
                 identifier="front_rgb",
