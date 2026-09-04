@@ -9,6 +9,29 @@ from rcs.envs.base import ControlMode, RelativeTo
 from rcs.envs.configs import EmptyWorldDroid
 from rcs.envs.scenes import CameraAdderConfig, SimEnvCreatorConfig
 
+# Camera extrinsics from hand-eye calibration, expressed as the composer offset:
+# the camera-body pose in its attach frame in MuJoCo camera convention (looks -Z, +Y up).
+# Built as  offset = T_attach_cam(opencv) @ Rx(180deg) @ inv(<camera> local mount pose),
+# so offset @ (XML <camera> local pose) reproduces the measured optical pose.
+# Wrist: attach frame is the FR3 attachment_site (flange), with TCP = site + z*0.1493.
+_WRIST_CAM_OFFSET = np.array(
+    [
+        [0.322504, 0.017714, -0.946402, -0.071548],
+        [0.014907, 0.999606, 0.023790, 0.007081],
+        [0.946451, -0.021781, 0.322113, 0.021495],
+        [0.0, 0.0, 0.0, 1.0],
+    ]
+)
+# Front: attach frame is the robot base (== root_frame_to_world, no rotation).
+_FRONT_CAM_OFFSET = np.array(
+    [
+        [0.033404, 0.777963, 0.627422, 0.943064],
+        [0.999353, -0.034364, -0.010597, 0.070509],
+        [0.013317, 0.627370, -0.778607, 0.481027],
+        [0.0, 0.0, 0.0, 1.0],
+    ]
+)
+
 
 class SingleArm(EmptyWorldDroid):
     def config(self) -> SimEnvCreatorConfig:
@@ -22,12 +45,12 @@ class SingleArm(EmptyWorldDroid):
         # cfg.robot_cfgs["right"].kp = [100., 100., 100., 100., 75., 150., 50.]
         # cfg.robot_cfgs["right"].kv = [20., 20., 20., 20., 7.5, 15.0, 5.0]
 
-        cfg.robot_cfgs["right"].kp = np.array([600, 600, 600, 600, 250, 150, 50])
-        cfg.robot_cfgs["right"].kv = np.array([50, 50, 50, 50, 30, 25, 15])
+        # cfg.robot_cfgs["right"].kp = np.array([600, 600, 600, 600, 250, 150, 50])
+        # cfg.robot_cfgs["right"].kv = np.array([50, 50, 50, 50, 30, 25, 15])
 
         cfg.control_mode = ControlMode.JOINTS
         cfg.relative_to = RelativeTo.NONE
-        cfg.headless = True
+        # cfg.headless = True
         cfg.sim_cfg = SimConfig(
             async_control=True, realtime=True, frequency=25, max_convergence_steps=500
         )
@@ -45,18 +68,12 @@ class SingleArm(EmptyWorldDroid):
         }
         cfg.camera_adds["front_rgb"] = CameraAdderConfig(
             xml_path=CAMERA_PATHS["zed2i"],
-            offset=common.Pose(
-                translation=[0.958473, 0.000714, 0.499707],
-                rpy_vector=[2.530727947461584, 0.0, np.pi / 2],
-            ),
+            offset=common.Pose(pose_matrix=_FRONT_CAM_OFFSET),  # hand-eye calibrated (base frame)
         )
         cfg.camera_adds.pop("wrist", None)
         cfg.camera_adds["gripper_rgb"] = CameraAdderConfig(
             xml_path=CAMERA_PATHS["zed_mini"],
-            offset=common.Pose(
-                translation=np.array([-0.077, 0.009, -0.008]),
-                rpy_vector=np.deg2rad([0, -70, 0]),
-            ),
+            offset=common.Pose(pose_matrix=_WRIST_CAM_OFFSET),  # hand-eye calibrated (attachment_site frame)
             robot_name="right",
         )
         cfg.gravcomp_ignore = (cfg.gravcomp_ignore - {"wrist"}) | {"gripper_rgb"}
