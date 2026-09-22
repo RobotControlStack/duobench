@@ -121,6 +121,14 @@ obs, info = env.reset()
 ```
 For an overview of all config options see [`SimEnvCreatorConfig` in RCS](https://github.com/RobotControlStack/robot-control-stack/blob/master/python/rcs/envs/scenes.py).
 
+The [vlagents](https://github.com/RobotControlStack/vlagents) `duobench/<task_id>` environments build exactly this evaluation config. The control mode and camera resolution are selected through `env_kwargs`, e.g. to evaluate a policy that outputs tool poses:
+```shell
+python -m vlagents run-eval --output-path runs/transfer_cube --episodes 50 \
+  --agent-cfg '{"host": "localhost", "port": 8080, "agent_name": "<agent>", "agent_kwargs": {}, "python_path": "python"}' \
+  --eval-cfgs '[{"env_id": "duobench/transfer_cube", "env_kwargs": {"control_mode": "xyzrpy", "camera_resolution": [448, 448]}, "max_steps_per_episode": 900, "image_size": [448, 448], "jpeg_encoding": true}]'
+```
+`control_mode` is `joints` (default), `xyzrpy` or `tquat`; the stage information (`stage`, `current_subinstruction`, ...) is forwarded to the policy in `SingleObs.info`.
+
 
 ## Available tasks
 
