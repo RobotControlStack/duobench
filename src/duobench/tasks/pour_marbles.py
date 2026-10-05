@@ -360,7 +360,7 @@ class PourMarblesTaskWrapper(TaskStageWrapper):
 @dataclass(kw_only=True)
 class PourMarblesTaskConfig(BaseTaskConfig):
     task_id: str = "pour_marbles"
-    marble_spawn_cup: Literal["random", "left", "right"] = "right"
+    marble_spawn_cup: Literal["random", "left", "right"] = "random"
     cup_xml = rcs.OBJECT_PATHS["teacup"]
     marble_xml = rcs.OBJECT_PATHS["marble"]
     marbles_to_mug: rcs.common.Pose = field(
