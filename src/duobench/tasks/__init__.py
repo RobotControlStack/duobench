@@ -67,7 +67,12 @@ class TaskStageWrapper(gym.Wrapper):
 
     def step(self, action: dict[str, Any]):
         obs, _, _, truncated, info = super().step(action)
+        previous_stage = self.stage_tracker.stage
         self.stage_tracker.update_internal_state(self.get_wrapper_attr("sim"))
+        # Stages are milestones: once reached, a stage is never lost within an episode
+        # (e.g. releasing an object or setting the maze back down does not undo progress).
+        if self.stage_tracker.stage < previous_stage:
+            self.stage_tracker.stage = previous_stage
 
         info.update(self.stage_tracker.info)
         reward = self.stage_tracker.normalized_stage
