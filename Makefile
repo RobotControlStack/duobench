@@ -1,5 +1,7 @@
 PYSRC = src/duobench
 MYPYSRC = src/duobench
+WHEELHOUSE = dist
+PYPI_REPOSITORY ?= pypi
 
 # Python
 pycheckformat:
@@ -28,4 +30,12 @@ bump:
 commit:
 	cz commit
 
-.PHONY: pycheckformat pyformat pylint ruff mypy pytest bump commit
+buildwheel:
+	rm -rf ${WHEELHOUSE}
+	uv build --wheel --out-dir ${WHEELHOUSE} .
+	twine check ${WHEELHOUSE}/*.whl
+
+uploadwheel:
+	twine upload --repository ${PYPI_REPOSITORY} ${WHEELHOUSE}/*.whl
+
+.PHONY: pycheckformat pyformat pylint ruff mypy pytest bump commit buildwheel uploadwheel
