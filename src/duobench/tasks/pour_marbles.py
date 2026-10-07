@@ -94,7 +94,9 @@ class PourMarblesStage(TaskStage):
             f"grasp and lift both cups, then pour the marbles from the {source_cup} cup into the {target_cup} cup "
             "and place the cups back to their original location inside the green square"
         )
-        self.stage_to_subinstructions[3] = f"pour at least one marble from the {source_cup} cup into the {target_cup} cup"
+        self.stage_to_subinstructions[3] = (
+            f"pour at least one marble from the {source_cup} cup into the {target_cup} cup"
+        )
         self.stage_to_subinstructions[4] = f"pour all marbles from the {source_cup} cup into the {target_cup} cup"
 
     def _ensure_collision_geoms(self, sim: Sim):
