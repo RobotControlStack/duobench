@@ -163,6 +163,10 @@ class PickPlaceTaskConfig(BaseTaskConfig):
     cube_geom: str = "box_geom"
     cube_joint: str = "box_joint"
 
+    # randomize the cubes' z-rotation (uniform yaw) at every reset, so grasping
+    # requires orienting the gripper; positions are always randomized
+    randomize_rotation: bool = False
+
     # success thresholds
     lift_thresh: float = 0.03  # red must rise this much above its start to count as "lifted"
     above_thresh: float = 0.02  # red center must be this far above green center (stacked, not beside)
@@ -215,7 +219,7 @@ class PickPlaceTask(Task[PickPlaceTaskConfig]):
             x_width=cfg.rand_x_width,
             y_width=cfg.rand_y_width,
             z_init=0.0,
-            include_rotation=False,
+            include_rotation=cfg.randomize_rotation,
             obj_position_margin=cfg.obj_position_margin,
         )
         return TaskStageWrapper(env, PickPlaceStage(cfg, prefix=cfg.prefix))
