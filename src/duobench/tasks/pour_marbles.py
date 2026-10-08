@@ -309,12 +309,11 @@ class PourMarblesStage(TaskStage):
 
 
 class PourMarblesTaskWrapper(TaskStageWrapper):
-    def __init__(self, env: gym.Env, stage_tracker: PourMarblesStage):
+    def __init__(self, env: gym.Env, stage_tracker: PourMarblesStage, cfg: "PourMarblesTaskConfig"):
         super().__init__(env, stage_tracker)
         self.stage_tracker: PourMarblesStage = stage_tracker
         self.sim = self.get_wrapper_attr("sim")
-        task_cfg = self.get_wrapper_attr("task_cfg")
-        self.marble_spawn_cup: Literal["random", "left", "right"] = task_cfg.marble_spawn_cup
+        self.marble_spawn_cup = cfg.marble_spawn_cup
 
     def reset(self, *, seed: int | None = None, options: dict[str, Any] | None = None):
         obs, info = super().reset(seed=seed, options=options)
@@ -421,8 +420,8 @@ class PourMarblesTask(Task[PourMarblesTaskConfig]):
         cfg: PourMarblesTaskConfig, env: gym.Env, simulation: Sim, env_cfg: SimEnvCreatorConfig
     ) -> gym.Env:
         """Add task-specific wrappers to the environment."""
-        _ = cfg, simulation, env_cfg
-        return PourMarblesTaskWrapper(env, PourMarblesStage())
+        _ = simulation, env_cfg
+        return PourMarblesTaskWrapper(env, PourMarblesStage(), cfg)
 
 
 rcs.TASKS["pour_marbles"] = PourMarblesTask
