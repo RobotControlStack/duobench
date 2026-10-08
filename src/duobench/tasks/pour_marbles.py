@@ -1,6 +1,6 @@
 import math
 from dataclasses import dataclass, field
-from typing import Any
+from typing import Any, Literal
 
 import gymnasium as gym
 import mujoco as mj
@@ -86,6 +86,18 @@ class PourMarblesStage(TaskStage):
         self.right_cup_lifted = False
         self.left_cup_upright = True
         self.right_cup_upright = True
+
+    def set_pour_direction(self, source_cup: Literal["left", "right"], target_cup: Literal["left", "right"]):
+        self.source_cup = source_cup
+        self.target_cup = target_cup
+        self.instruction = (
+            f"grasp and lift both cups, then pour the marbles from the {source_cup} cup into the {target_cup} cup "
+            "and place the cups back to their original location inside the green square"
+        )
+        self.stage_to_subinstructions[3] = (
+            f"pour at least one marble from the {source_cup} cup into the {target_cup} cup"
+        )
+        self.stage_to_subinstructions[4] = f"pour all marbles from the {source_cup} cup into the {target_cup} cup"
 
     def _ensure_collision_geoms(self, sim: Sim):
         if self.collision_geoms is not None:
@@ -297,16 +309,22 @@ class PourMarblesStage(TaskStage):
 
 
 class PourMarblesTaskWrapper(TaskStageWrapper):
-    def __init__(self, env: gym.Env, stage_tracker: PourMarblesStage):
+    def __init__(self, env: gym.Env, stage_tracker: PourMarblesStage, cfg: "PourMarblesTaskConfig"):
         super().__init__(env, stage_tracker)
         self.stage_tracker: PourMarblesStage = stage_tracker
         self.sim = self.get_wrapper_attr("sim")
+        self.marble_spawn_cup = cfg.marble_spawn_cup
 
     def reset(self, *, seed: int | None = None, options: dict[str, Any] | None = None):
         obs, info = super().reset(seed=seed, options=options)
 
-        self.stage_tracker.target_cup = "left" if self.np_random.random() > 0.5 else "right"
-        self.stage_tracker.source_cup = "right" if self.stage_tracker.target_cup == "left" else "left"
+        if self.marble_spawn_cup == "random":
+            source_cup: Literal["left", "right"] = "left" if self.np_random.random() > 0.5 else "right"
+        else:
+            source_cup = self.marble_spawn_cup
+
+        target_cup: Literal["left", "right"] = "right" if source_cup == "left" else "left"
+        self.stage_tracker.set_pour_direction(source_cup, target_cup)
         lc = self.sim.data.body("leftteacup_body")
         rc = self.sim.data.body("rightteacup_body")
         tf_W_LC = RigidTransform.from_components(lc.xpos, Rotation.from_matrix(lc.xmat.reshape((3, 3))))
@@ -343,6 +361,7 @@ class PourMarblesTaskWrapper(TaskStageWrapper):
 @dataclass(kw_only=True)
 class PourMarblesTaskConfig(BaseTaskConfig):
     task_id: str = "pour_marbles"
+    marble_spawn_cup: Literal["random", "left", "right"] = "random"
     cup_xml = rcs.OBJECT_PATHS["teacup"]
     marble_xml = rcs.OBJECT_PATHS["marble"]
     marbles_to_mug: rcs.common.Pose = field(
@@ -401,8 +420,8 @@ class PourMarblesTask(Task[PourMarblesTaskConfig]):
         cfg: PourMarblesTaskConfig, env: gym.Env, simulation: Sim, env_cfg: SimEnvCreatorConfig
     ) -> gym.Env:
         """Add task-specific wrappers to the environment."""
-        _ = cfg, simulation, env_cfg
-        return PourMarblesTaskWrapper(env, PourMarblesStage())
+        _ = simulation, env_cfg
+        return PourMarblesTaskWrapper(env, PourMarblesStage(), cfg)
 
 
 rcs.TASKS["pour_marbles"] = PourMarblesTask
