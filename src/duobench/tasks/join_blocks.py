@@ -64,6 +64,11 @@ class JoinBlocksTask(Task[JoinBlocksTaskConfig]):
     @staticmethod
     def add_task_mujoco(cfg: JoinBlocksTaskConfig, composer: ModelComposer, env_cfg: SimEnvCreatorConfig):
         """Add task-specific elements to the Mujoco scene."""
+        # MuJoCo >= 3.7 integrates standalone free bodies with a midpoint step under implicitfast, which diverges
+        # for the heavily damped wall joint; the resulting auto-reset teleports all objects back to their add pose.
+        # invdiscrete disables the midpoint step (behaviour of MuJoCo < 3.7, which the dataset was recorded with).
+        composer.spec.option.enableflags |= int(mj.mjtEnableBit.mjENBL_INVDISCRETE)
+
         object2world = env_cfg.root_frame_to_world * cfg.object_center_to_root_frame
 
         for name in cfg.objects_to_add:
