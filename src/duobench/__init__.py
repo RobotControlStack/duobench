@@ -5,41 +5,17 @@ from pathlib import Path
 
 import numpy as np
 import rcs
-from rcs import download_assets, get_prefix
+from rcs import get_prefix
 from rcs._core import common
 
 DUOBENCH_GITHUB_ASSET_ARCHIVE_URL = "https://github.com/RobotControlStack/duobench/archive/refs/tags/{tag}.zip"
-# written after a complete download, marks which duobench version the assets belong to
-ASSETS_VERSION_FILE = Path("assets/.duobench_version")
 
-
-def _download_assets(version: str, prefix: Path, github_asset_archive_url: str, assets_dirname: str) -> None:
-    download_assets(version, prefix, github_asset_archive_url, assets_dirname)
-    (prefix / ASSETS_VERSION_FILE).write_text(version)
-
-
-def _get_duobench_prefix(env_prefix: str | None, editable_prefix: Path, default_prefix: Path) -> str:
-    # rcs.get_prefix checks for an RCS asset that is not part of the duobench archive, so it would
-    # re-download the duobench assets on every import; skip it if the assets of this version are there
-    if env_prefix or not (editable_prefix.resolve() / "assets").is_dir():
-        prefix = Path(env_prefix).expanduser().resolve() if env_prefix else default_prefix.resolve()
-        version_file = prefix / ASSETS_VERSION_FILE
-        if version_file.is_file() and version_file.read_text() == __version__:
-            return str(prefix)
-    return get_prefix(
-        env_prefix,
-        editable_prefix,
-        default_prefix,
-        __version__,
-        DUOBENCH_GITHUB_ASSET_ARCHIVE_URL,
-        download_fn=_download_assets,
-    )
-
-
-DUOBENCH_PREFIX = _get_duobench_prefix(
+DUOBENCH_PREFIX = get_prefix(
     os.environ.get("DUOBENCH_PREFIX"),
     Path(__file__).resolve().parents[2],
     Path.home() / ".duobench",
+    __version__,
+    DUOBENCH_GITHUB_ASSET_ARCHIVE_URL,
 )
 
 CAMERA_PATHS: dict[str, str] = {}
