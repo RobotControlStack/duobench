@@ -1,0 +1,50 @@
+<mujoco model="flexiv_mount">
+  <!-- Flexiv dual arm mount for two Rizon 4s (rcs_scenes/FlexivMount: flexiv_mount.usd, Models/flexiv_mount.obj):
+       H-frame base on casters, pillar and a head with two 45 degree faces the arm bases are bolted to.
+       Body frame: on the floor below the center of the mount, z up, the arms are at x = -0.18 (flexiv_arm_l_root)
+       and x = 0.18 (flexiv_arm_r_root), z = 1.114, tilted 45 degrees about y away from each other.
+       Head collision hulls from rcs_scenes/FlexivMount/make_flexiv_mount_assets.py. -->
+  <compiler angle="radian" meshdir="assets" texturedir="assets" autolimits="true"/>
+  <option cone="elliptic" impratio="10"/>
+  <asset>
+    <!-- OmniPBR material of flexiv_mount.usd: albedo, tangent space normal map (OpenGL convention, green = +v),
+         metallic 1, roughness 0.2; the normal map is only rendered by the Filament renderer -->
+    <texture name="flexiv_mount_albedo" type="2d" file="flexiv_mount_albedotransparency.png"/>
+    <texture name="flexiv_mount_normal" type="2d" file="flexiv_mount_normal.png" colorspace="linear"/>
+    <material name="flexiv_mount" specular="0.3" shininess="0.3" metallic="1" roughness="0.2">
+      <layer texture="flexiv_mount_albedo" role="rgb"/>
+      <layer texture="flexiv_mount_normal" role="normal"/>
+    </material>
+    <mesh name="flexiv_mount" file="flexiv_mount.obj" inertia="shell"/>
+    <mesh name="head_lower_coll" file="flexiv_mount_head_lower_collision.stl"/>
+    <mesh name="head_upper_coll" file="flexiv_mount_head_upper_collision.stl"/>
+  </asset>
+  <default>
+    <default class="flexiv_mount">
+      <default class="visual">
+        <geom type="mesh" contype="0" conaffinity="0" group="2"/>
+      </default>
+      <default class="collision">
+        <geom type="box" group="3"/>
+      </default>
+    </default>
+  </default>
+  <worldbody>
+    <body name="base" childclass="flexiv_mount">
+      <geom mesh="flexiv_mount" material="flexiv_mount" class="visual"/>
+      <!-- casters -->
+      <geom size="0.045 0.058 0.076" pos="0.794 0.567 0.076" class="collision"/>
+      <geom size="0.045 0.058 0.076" pos="0.794 -0.567 0.076" class="collision"/>
+      <geom size="0.045 0.058 0.076" pos="-0.794 0.567 0.076" class="collision"/>
+      <geom size="0.045 0.058 0.076" pos="-0.794 -0.567 0.076" class="collision"/>
+      <!-- H-frame: side rails and center beam -->
+      <geom size="0.045 0.6 0.0315" pos="0.794 0 0.1835" class="collision"/>
+      <geom size="0.045 0.6 0.0315" pos="-0.794 0 0.1835" class="collision"/>
+      <geom size="0.749 0.067 0.0315" pos="0 0 0.1835" class="collision"/>
+      <!-- pillar and head -->
+      <geom size="0.135 0.157 0.2835" pos="0 0 0.4985" class="collision"/>
+      <geom type="mesh" mesh="head_lower_coll" class="collision"/>
+      <geom type="mesh" mesh="head_upper_coll" class="collision"/>
+    </body>
+  </worldbody>
+</mujoco>
