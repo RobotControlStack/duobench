@@ -55,8 +55,11 @@ class JoinBlocksTaskConfig(BaseTaskConfig):
 
     wall = "wall_wall"
     wall_peg_name = "wall_wall_peg"
-    block_dist = 0.01
-    wall_dist = 0.01
+    # max peg-center offset from the socket marker on every axis of the marker frame. The socket holds the peg
+    # sideways (it is clear of the socket only from ~22 mm on) and is open along its z axis (insertion depth,
+    # 25 mm socket height). 15 mm: 48/50 successful sim demos pass, a peg held next to the socket does not.
+    block_dist = 0.015
+    wall_dist = 0.015
 
 
 class JoinBlocksTask(Task[JoinBlocksTaskConfig]):
@@ -119,6 +122,20 @@ class JoinBlocksTask(Task[JoinBlocksTaskConfig]):
         return TaskStageWrapper(env, JoinBlocksStage(cfg))
 
 
+def peg_in_socket(peg_pos: np.ndarray, marker_pos: np.ndarray, marker_xmat: np.ndarray, max_dist: float) -> bool:
+    """Whether the peg center lies within max_dist of the socket marker on every axis of the marker frame."""
+    offset = np.asarray(marker_xmat).reshape(3, 3).T @ (np.asarray(peg_pos) - np.asarray(marker_pos))
+    return bool(np.all(np.abs(offset) < max_dist))
+
+
+def get_geom_xmat(model, data, name):
+    geom_id = mj.mj_name2id(model, mj.mjtObj.mjOBJ_GEOM, name)
+    if geom_id == -1:
+        msg = f"Geom '{name}' not found"
+        raise ValueError(msg)
+    return data.geom_xmat[geom_id]
+
+
 class JoinBlocksStage(TaskStage):
     def __init__(self, cfg: JoinBlocksTaskConfig):
         super().__init__(
@@ -154,14 +171,25 @@ class JoinBlocksStage(TaskStage):
 
         approaching_done = bool(left_contacts & block_body_ids) and bool(right_contacts & block_body_ids)
 
-        diff_block = abs(block_peg_pos - block_marker_pos)
-        blocks_connected = diff_block[0] < 0.05 and diff_block[1] < 0.05 and diff_block[2] < 0.05
+        blocks_connected = peg_in_socket(
+            block_peg_pos,
+            block_marker_pos,
+            get_geom_xmat(sim.model, sim.data, self.cfg.marker_block),
+            self.cfg.block_dist,
+        )
+        wall_connected = peg_in_socket(
+            wall_peg_pos,
+            wall_marker_pos,
+            get_geom_xmat(sim.model, sim.data, self.cfg.marker_wall),
+            self.cfg.wall_dist,
+        )
 
-        diff_wall = abs(wall_peg_pos - wall_marker_pos)
-        wall_connected = diff_wall[0] < 0.05 and diff_wall[1] < 0.05 and diff_wall[2] < 0.01
-
+        # success needs both joints at the same time: the latched blocks_connected below only advances the stage
         holding_on_wall = (
-            wall_connected and bool(left_contacts & block_body_ids) and bool(right_contacts & block_body_ids)
+            blocks_connected
+            and wall_connected
+            and bool(left_contacts & block_body_ids)
+            and bool(right_contacts & block_body_ids)
         )
 
         self.internal_state["approaching_done"] = self.internal_state["approaching_done"] or approaching_done
