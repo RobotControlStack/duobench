@@ -5,7 +5,7 @@ from pathlib import Path
 
 import numpy as np
 import rcs
-from rcs import download_assets, get_prefix
+from rcs import download_assets
 from rcs._core import common
 
 DUOBENCH_GITHUB_ASSET_ARCHIVE_URL = "https://github.com/RobotControlStack/duobench/archive/refs/tags/{tag}.zip"
@@ -19,21 +19,17 @@ def _download_assets(version: str, prefix: Path, github_asset_archive_url: str, 
 
 
 def _get_duobench_prefix(env_prefix: str | None, editable_prefix: Path, default_prefix: Path) -> str:
-    # rcs.get_prefix checks for an RCS asset that is not part of the duobench archive, so it would
-    # re-download the duobench assets on every import; skip it if the assets of this version are there
-    if env_prefix or not (editable_prefix.resolve() / "assets").is_dir():
-        prefix = Path(env_prefix).expanduser().resolve() if env_prefix else default_prefix.resolve()
-        version_file = prefix / ASSETS_VERSION_FILE
-        if version_file.is_file() and version_file.read_text() == __version__:
-            return str(prefix)
-    return get_prefix(
-        env_prefix,
-        editable_prefix,
-        default_prefix,
-        __version__,
-        DUOBENCH_GITHUB_ASSET_ARCHIVE_URL,
-        download_fn=_download_assets,
-    )
+    # versioned here instead of with rcs.get_prefix: rcs-core 0.7.3 checks for an RCS asset that is not part of
+    # the duobench archive (re-download on every import), newer RCS keeps unversioned assets at a user prefix
+    if not env_prefix and (editable_prefix.resolve() / "assets").is_dir():
+        return str(editable_prefix.resolve())
+    prefix = Path(env_prefix).expanduser().resolve() if env_prefix else default_prefix.resolve()
+    version_file = prefix / ASSETS_VERSION_FILE
+    if not (version_file.is_file() and version_file.read_text() == __version__):
+        prefix.mkdir(parents=True, exist_ok=True)
+        print(f"Assets for duobench {__version__} not found at {prefix / 'assets'}, downloading them now.")
+        _download_assets(__version__, prefix, DUOBENCH_GITHUB_ASSET_ARCHIVE_URL, "assets")
+    return str(prefix)
 
 
 DUOBENCH_PREFIX = _get_duobench_prefix(
