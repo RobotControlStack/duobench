@@ -81,6 +81,18 @@ class BlockBalanceStage(TaskStage):
                 return True
         return False
 
+    def _body_touches_only(self, sim: Sim, body_id: int, allowed_body_ids: set[int]) -> bool:
+        """True if every contact of the body is with one of the allowed bodies (e.g. not the table or a robot link)."""
+        for i in range(sim.data.ncon):
+            contact = sim.data.contact[i]
+            geom1_body_id = sim.model.geom_bodyid[contact.geom1]
+            geom2_body_id = sim.model.geom_bodyid[contact.geom2]
+            if body_id == geom1_body_id and geom2_body_id not in allowed_body_ids:
+                return False
+            if body_id == geom2_body_id and geom1_body_id not in allowed_body_ids:
+                return False
+        return True
+
     def update_internal_state(self, sim: Sim):
         beam_body_id = mj.mj_name2id(sim.model, mj.mjtObj.mjOBJ_BODY, self.beam_body_name)
         blue_rectangle_body_id = mj.mj_name2id(sim.model, mj.mjtObj.mjOBJ_BODY, self.blue_rectangle_body_name)
@@ -93,9 +105,8 @@ class BlockBalanceStage(TaskStage):
 
         beam_grasped = beam_body_id in left_arm_contacts or beam_body_id in right_arm_contacts
 
-        beam_on_cube = (self.red_cube_geom_name, self.beam_geom_name) in contact_pairs or self.internal_state[
-            "beam_on_cube"
-        ]
+        # current step only: a beam that touched the cube once and then fell onto the table is not on the cube
+        beam_on_cube = (self.red_cube_geom_name, self.beam_geom_name) in contact_pairs
 
         cubes_contacted_by_left = {
             body_id for body_id in (blue_rectangle_body_id, green_rectangle_body_id) if body_id in left_arm_contacts
@@ -120,6 +131,7 @@ class BlockBalanceStage(TaskStage):
             or right_arm_contacts & {beam_body_id, blue_rectangle_body_id, green_rectangle_body_id, red_cube_body_id}
         )
 
+        task_body_ids = {beam_body_id, blue_rectangle_body_id, green_rectangle_body_id, red_cube_body_id}
         beam_qvel_adr = sim.model.jnt_dofadr[
             mj.mj_name2id(sim.model, mj.mjtObj.mjOBJ_JOINT, self.prefix + "pink_beam_joint")
         ]
@@ -140,6 +152,10 @@ class BlockBalanceStage(TaskStage):
             and self._body_has_any_contact(sim, beam_body_id)
             and self._body_has_any_contact(sim, blue_rectangle_body_id)
             and self._body_has_any_contact(sim, green_rectangle_body_id)
+            # the structure stands on its own: beam and rectangles touch only each other and the cube, not the table
+            and self._body_touches_only(sim, beam_body_id, task_body_ids)
+            and self._body_touches_only(sim, blue_rectangle_body_id, task_body_ids)
+            and self._body_touches_only(sim, green_rectangle_body_id, task_body_ids)
         )
 
         if beam_balanced_now:
@@ -157,20 +173,17 @@ class BlockBalanceStage(TaskStage):
         self.update_stage()
 
     def update_stage(self):
-        if self.internal_state["beam_balanced"]:
-            new_stage = 5
-        elif self.internal_state["both_cubes_on_beam"]:
-            new_stage = 4
-        elif self.internal_state["both_cubes_grasped"]:
-            new_stage = 3
-        elif self.internal_state["beam_on_cube"]:
-            new_stage = 2
-        elif self.internal_state["beam_grasped"]:
-            new_stage = 1
-        else:
-            new_stage = 0
-
-        self.stage = max(self.stage, new_stage)
+        # stages are sequential: stage n + 1 can only be reached from stage n
+        if self.stage == 0 and self.internal_state["beam_grasped"]:
+            self.stage = 1
+        elif self.stage == 1 and self.internal_state["beam_on_cube"]:
+            self.stage = 2
+        elif self.stage == 2 and self.internal_state["both_cubes_grasped"]:
+            self.stage = 3
+        elif self.stage == 3 and self.internal_state["both_cubes_on_beam"]:
+            self.stage = 4
+        elif self.stage == 4 and self.internal_state["beam_balanced"]:
+            self.stage = 5
 
 
 @dataclass(kw_only=True)
