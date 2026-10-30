@@ -1,3 +1,17 @@
+## v0.1.3 (2026-10-29)
+
+### Fix
+
+- **block_balance**: sequential stages and success only for a free-standing balanced beam
+- **join_blocks**: require the peg to be inside the socket for success
+- **sim**: enlarge the MuJoCo arena to avoid mj_stackAlloc aborts
+- **assets**: stop re-downloading assets on every import
+- **join_blocks**: disable midpoint integration to stop wall divergence on reset
+
+### Refactor
+
+- **assets**: rely on rcs-core 0.7.4 for asset versioning
+
 ## v0.1.2 (2026-10-08)
 
 ### Feat
