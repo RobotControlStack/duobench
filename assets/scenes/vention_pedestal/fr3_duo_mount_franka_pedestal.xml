@@ -1,0 +1,43 @@
+<mujoco model="fr3_duo_mount_franka_pedestal">
+  <!-- FR3 duo mount as on the Franka FR3 Duo pedestal (installation guide R04240): 250 mm item profile 8 120x80
+       pillar (measured), FR3 Duo Mount v0.3 block and cover, Franka head v0.2 (franka_description
+       franka_head_v0_2) instead of the 3D printed RCS head. Meshes from the RCS fr3_duo_mount assets
+       (scripts/utils/make_duo_mount_assets.py).
+       Body frame: bottom of the pillar (= top of the mounting plate), below the FR3 Duo origin, which is 50 mm
+       above the top of the pillar; the pillar axis is at x = -0.0369. -->
+  <compiler angle="radian" meshdir="assets/duo_mount" autolimits="true"/>
+  <option cone="elliptic" impratio="10"/>
+  <asset>
+    <material name="metal" rgba="0.58 0.58 0.58 1"/>
+    <material name="white"/>
+    <mesh name="pillar" file="fr3_duo_pillar_250mm.stl"/>
+    <mesh name="pillar_coll" file="fr3_duo_pillar_250mm_collision.stl"/>
+    <mesh name="mount" file="fr3_duo_mount.stl"/>
+    <mesh name="mount_coll" file="fr3_duo_mount_collision.stl"/>
+    <mesh name="cover" file="fr3_duo_cover.stl"/>
+    <mesh name="cover_coll" file="fr3_duo_cover_collision.stl"/>
+    <mesh name="head" file="fr3_duo_head.stl"/>
+  </asset>
+  <default>
+    <default class="fr3_duo_mount">
+      <default class="visual">
+        <geom type="mesh" contype="0" conaffinity="0" group="2"/>
+      </default>
+      <default class="collision">
+        <geom type="mesh" group="3"/>
+      </default>
+    </default>
+  </default>
+  <worldbody>
+    <body name="base" childclass="fr3_duo_mount">
+      <geom mesh="pillar" material="metal" pos="-0.0369 0 0.125" class="visual"/>
+      <geom mesh="mount" material="metal" pos="-0.0369 0 0.25" class="visual"/>
+      <geom mesh="cover" material="white" pos="-0.0369 0 0.318" class="visual"/>
+      <geom mesh="head" material="white" pos="-0.0369 0 0.417" class="visual"/>
+      <geom mesh="pillar_coll" pos="-0.0369 0 0.125" class="collision"/>
+      <geom mesh="mount_coll" pos="-0.0369 0 0.25" class="collision"/>
+      <geom mesh="cover_coll" pos="-0.0369 0 0.318" class="collision"/>
+      <geom mesh="head" pos="-0.0369 0 0.417" class="collision"/>
+    </body>
+  </worldbody>
+</mujoco>

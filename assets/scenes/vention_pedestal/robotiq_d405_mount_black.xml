@@ -1,0 +1,15 @@
+<mujoco model="robotiq_d405_mount">
+  <!-- RCS robotiq_d405_mount (Franka "Wrist camera mount for Robotiq") in black -->
+  <compiler angle="radian" meshdir="assets/duo_mount" autolimits="true"/>
+  <option cone="elliptic" impratio="10"/>
+  <asset>
+    <material name="black" rgba="0.1 0.1 0.1 1"/>
+    <mesh name="robotiq_d405_mount" file="robotiq_d405_mount.stl"/>
+  </asset>
+  <worldbody>
+    <body name="base">
+      <geom type="mesh" mesh="robotiq_d405_mount" material="black" contype="0" conaffinity="0" group="2"/>
+      <geom type="mesh" mesh="robotiq_d405_mount" group="3"/>
+    </body>
+  </worldbody>
+</mujoco>

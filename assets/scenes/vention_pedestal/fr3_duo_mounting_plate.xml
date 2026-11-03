@@ -1,0 +1,18 @@
+<mujoco model="fr3_duo_mounting_plate">
+  <!-- Franka FR3 Duo pedestal mounting plate (guide R04240, P2.1): 280 x 280 x 12 mm aluminium plate with an M8
+       hole grid, modeled from photos (robot-control-stack assets/objects/fr3_duo_mount_franka_pedestal/
+       build_mounting_plate.py).
+       Body frame: center of the bottom face. -->
+  <compiler angle="radian" meshdir="assets" autolimits="true"/>
+  <option cone="elliptic" impratio="10"/>
+  <asset>
+    <material name="aluminium" rgba="0.78 0.79 0.8 1" specular="0.4" shininess="0.3"/>
+    <mesh name="plate" file="fr3_duo_mounting_plate.obj" inertia="shell"/>
+  </asset>
+  <worldbody>
+    <body name="base">
+      <geom type="mesh" mesh="plate" material="aluminium" contype="0" conaffinity="0" group="2"/>
+      <geom type="box" size="0.14 0.14 0.006" pos="0 0 0.006" group="3"/>
+    </body>
+  </worldbody>
+</mujoco>
